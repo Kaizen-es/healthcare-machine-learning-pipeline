@@ -1,7 +1,6 @@
 # Classifier Robustness Under Distribution Shift
 ### Empirical Analysis of Class Imbalance Effects on Breast Cancer Classification
 
----
 
 ## Overview
 
@@ -9,7 +8,6 @@ This project presents an empirical analysis of how class distribution affects th
 
 The analysis is built around the Wisconsin Breast Cancer Diagnostic Dataset and implemented as an interactive visualization dashboard using Plotly and Streamlit.
 
----
 
 ## Motivation
 
@@ -18,8 +16,6 @@ In real clinical settings, approximately 80% of confirmed breast tissue diagnose
 > **How does the balance of malignant versus benign cases in training data affect how well a classifier performs — and which classifier is most robust to that shift?**
 
 This project addresses that question directly through a controlled distribution experiment, evaluating classifier performance across accuracy, sensitivity, and specificity under three distinct class distribution scenarios.
-
----
 
 ## Dataset
 
@@ -36,12 +32,10 @@ This project addresses that question directly through a controlled distribution 
 | Class Distribution | 37% malignant / 63% benign |
 | Missing Values | None |
 
----
 
 ## Project Structure
 
 ## Methodology
-
 ### Stage 1 — Feature Exploration
 - Feature distribution histograms (malignant vs benign)
 - Box plots highlighting median values and outliers
@@ -68,13 +62,11 @@ Metrics:
 | Case 2 | 50% | 50% | Ideally balanced |
 | Case 3 | 80% | 20% | Flipped distribution — stress test |
 
----
 
 ## Results
 
 *To be updated upon project completion.*
 
----
 
 ## Limitations
 
@@ -83,7 +75,6 @@ Metrics:
 - Accuracy alone insufficient — sensitivity and specificity must be interpreted together
 - Experimental analysis only — not a clinical diagnostic tool
 
----
 
 ## References
 
@@ -91,8 +82,3 @@ Metrics:
 - BCRF (2024). What percentage of breast biopsies are cancer?
 - Pedregosa et al. (2011). Scikit-learn. JMLR 12, 2825-2830.
 
----
-
-## Course Context
-
-EECE 5642 Data Visualization, Northeastern University, Prof. Y. Raymond Fu.
