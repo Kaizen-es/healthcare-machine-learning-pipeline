@@ -67,14 +67,12 @@ Metrics:
 
 *To be updated upon project completion.*
 
-
 ## Limitations
 
 - Results specific to Wisconsin dataset
 - Undersampling reduces training sample size
 - Accuracy alone insufficient — sensitivity and specificity must be interpreted together
 - Experimental analysis only — not a clinical diagnostic tool
-
 
 ## References
 
