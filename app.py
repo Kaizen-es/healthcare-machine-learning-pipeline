@@ -84,7 +84,7 @@ training_sizes = {
     'Case 2 (50/50)':   {'Benign': 227, 'Malignant': 228},
     'Case 3 (80/20)':   {'Benign': 91,  'Malignant': 364},
 }
-us_cases     = 310720
+us_cases     = 382640
 global_cases = 2300000
 
 # ── Color Constants ────────────────────────────────────────────────────────
