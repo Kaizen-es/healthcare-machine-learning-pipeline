@@ -134,11 +134,11 @@ def kde_trace(data, color, name, show_legend=True):
 st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Northeastern_University_logo.svg/320px-Northeastern_University_logo.svg.png", width=180)
 st.sidebar.markdown("---")
 page = st.sidebar.radio("Navigate", [
-    "🏠 Overview",
-    "🔬 Feature Exploration",
-    "📊 Baseline Classification",
-    "⚗️ Distribution Experiment",
-    "🌍 Real World Impact"
+    "Overview",
+    "Feature Exploration",
+    "Baseline Classification",
+    "Class Distribution",
+    "Real World Impact"
 ])
 st.sidebar.markdown("---")
 st.sidebar.markdown("**EECE 5642 — Data Visualization**")
@@ -147,7 +147,7 @@ st.sidebar.markdown("Stephany Erhabor · Spring 2025")
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 1 — OVERVIEW
 # ══════════════════════════════════════════════════════════════════════════
-if page == "🏠 Overview":
+if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
     st.markdown("#### Wisconsin Breast Cancer Dataset · EECE 5642 Final Project")
     st.markdown("---")
@@ -206,7 +206,7 @@ if page == "🏠 Overview":
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 2 — FEATURE EXPLORATION
 # ══════════════════════════════════════════════════════════════════════════
-elif page == "🔬 Feature Exploration":
+elif page == "Feature Exploration":
     st.title("Feature Exploration")
     st.markdown("Comparing the distribution of 10 cell nucleus `_mean` features across Benign and Malignant classes.")
 
@@ -255,7 +255,7 @@ elif page == "🔬 Feature Exploration":
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 3 — BASELINE CLASSIFICATION
 # ══════════════════════════════════════════════════════════════════════════
-elif page == "📊 Baseline Classification":
+elif page == "Baseline Classification":
     st.title("Baseline Classification")
     st.markdown("All three classifiers trained on the original Wisconsin dataset (37% malignant / 63% benign), evaluated on a fixed 20% test set.")
     st.markdown("---")
@@ -307,7 +307,7 @@ elif page == "📊 Baseline Classification":
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 4 — DISTRIBUTION EXPERIMENT
 # ══════════════════════════════════════════════════════════════════════════
-elif page == "⚗️ Distribution Experiment":
+elif page == "Distribution Experiment":
     st.title("Distribution Experiment")
     st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios. Test set is unchanged across all cases.")
 
@@ -367,7 +367,7 @@ elif page == "⚗️ Distribution Experiment":
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 5 — REAL WORLD IMPACT
 # ══════════════════════════════════════════════════════════════════════════
-elif page == "🌍 Real World Impact":
+elif page == "Real World Impact":
     st.title("Real World Impact")
     st.markdown("Translating classifier sensitivity drops into missed diagnoses at scale.")
     st.markdown("---")
