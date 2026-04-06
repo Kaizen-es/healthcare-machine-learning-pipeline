@@ -182,7 +182,7 @@ if page == "Overview":
     with c2:
         st.subheader("Project Structure")
         st.markdown("""
-        | Stage | Focus |
+        | Phase | Focus |
         |-------|-------|
         | **01 — Feature Exploration** | Are there observable structural differences between malignant and benign cells? |
         | **02 — Baseline Classification** | Logistic Regression, SVM, Random Forest on the original dataset |
@@ -275,7 +275,7 @@ elif page == "Feature Exploration":
                       margin=dict(l=160))
     st.plotly_chart(fig, use_container_width=True)
 
-    st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, supporting the use of linear classifiers in Stage 2.")
+    st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, supporting the use of linear classifiers in Phase 2.")
 
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 3 — BASELINE CLASSIFICATION
@@ -327,7 +327,7 @@ elif page == "Baseline Classification":
 
     st.markdown("---")
     st.subheader("Key Finding")
-    st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, contrary to the conventional expectation that more complex models perform better. This suggests the decision boundary between malignant and benign is largely linear, which is supported by the clear class separation observed in Stage 1.")
+    st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, contrary to the conventional expectation that more complex models perform better. This suggests the decision boundary between malignant and benign is largely linear, which is supported by the clear class separation observed in Phase 1.")
 
 # ══════════════════════════════════════════════════════════════════════════
 # PAGE 4 — CLASS DISTRIBUTION
