@@ -137,7 +137,7 @@ page = st.sidebar.radio("Navigate", [
     "Overview",
     "Feature Exploration",
     "Baseline Classification",
-    "Class Distribution",
+    "Distribution Experiment",
     "Real World Impact"
 ])
 st.sidebar.markdown("---")
