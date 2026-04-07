@@ -156,7 +156,7 @@ st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 # PAGE 1 — OVERVIEW
 if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
-    st.markdown("#### Wisconsin Breast Cancer Dataset · EECE 5642 Final Project")
+    st.markdown("#### Wisconsin Breast Cancer Dataset")
     st.markdown("---")
 
     col1, col2, col3, col4 = st.columns(4)
@@ -172,9 +172,10 @@ if page == "Overview":
         st.markdown("""
         > *How does the balance of malignant vs. benign cases in training data affect classifier performance?*
 
-        Breast cancer is the most diagnosed cancer in women worldwide.
-        AI-assisted mammogram tools are becoming increasingly prevalent,
-        yet most are trained on data that does not reflect real clinical distributions.
+        Breast cancer is one of the most diagnosed cancers in the world.
+        AI-assisted tools are continuously being used to enhance detection, 
+        but these models are only as reliable as the data they are trained on
+       
 
         In real clinical settings, approximately 80% of confirmed diagnoses are benign
         and only 20% are malignant. This project investigates what happens when that ratio shifts.
