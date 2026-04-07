@@ -378,13 +378,13 @@ elif page == "Real World Impact":
 
         st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
         st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
-                  delta=f"{-drop:+.1%}", delta_color="inverse")
+                  delta=f"{(case_sen - baseline_sen):+.1%}")
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
-    col1.metric("Sensitivity Change",        f"{-drop:+.1%}")
-    col2.metric("Missed Diagnoses (US)",     f"{us_missed:,}" if drop > 0 else f"Gained {abs(us_missed):,} cases detected")
-    col3.metric("Missed Diagnoses (Global)", f"{global_missed:,}" if drop > 0 else f"Gained {abs(global_missed):,} cases detected")
+    col1.metric("Sensitivity Change",         f"{-drop:+.1%}")
+    col2.metric("Missed Diagnoses (US)",      f"{us_missed:,}")
+    col3.metric("Missed Diagnoses (Global)",  f"{global_missed:,}")
 
     st.markdown("---")
     st.subheader("Sensitivity Across All Cases")
