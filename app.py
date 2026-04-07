@@ -373,8 +373,8 @@ elif page == "Real World Impact":
         baseline_sen  = sensitivity['Baseline (37/63)'][selected_clf]
         case_sen      = sensitivity[selected_case][selected_clf]
         drop          = baseline_sen - case_sen
-        us_missed     = int(drop) * us_cases)
-        global_missed = int(drop) * global_cases)
+        us_missed     = int((drop) * us_cases)
+        global_missed = int((drop) * global_cases)
 
         st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
         st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
