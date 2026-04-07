@@ -139,9 +139,9 @@ def kde_trace(data, color, name, show_legend=True):
                       line=dict(color=color, width=2), showlegend=show_legend)
 
 #  Sidebar Nav 
-st.sidebar.markdown("### Northeastern University")
+st.sidebar.markdown("### EECE 5642 - Data Visualization")
 st.sidebar.markdown("---")
-page = st.sidebar.radio("Navigate", [
+page = st.sidebar.radio("**Navigate**", [
     "Overview",
     "Feature Exploration",
     "Baseline Classification",
@@ -149,7 +149,6 @@ page = st.sidebar.radio("Navigate", [
     "Real World Impact"
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("**EECE 5642 — Data Visualization**")
 st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
 
