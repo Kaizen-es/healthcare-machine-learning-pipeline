@@ -97,13 +97,12 @@ CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
 # Helpers 
 def metric_line_chart(metric_dict, title, y_label, y_range):
-    dash_style = {'Logistic Regression': 'dash', 'SVM': 'solid', 'Random Forest': 'dot'}
     fig = go.Figure()
     for clf in CLFS:
         fig.add_trace(go.Scatter(
             x=CASES, y=[metric_dict[c][clf] for c in CASES],
             mode='lines+markers', name=clf,
-            line=dict(color=CLF_COLORS[clf], width=2.5, dash=dash_style[clf]),
+            line=dict(color=CLF_COLORS[clf], width=2.5),
             marker=dict(size=8)
         ))
     fig.update_layout(
@@ -252,7 +251,7 @@ elif page == "Feature Exploration":
             col.plotly_chart(fig, use_container_width=True)
  
 
-    st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, supporting the use of linear classifiers in Phase 2.")
+    st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, which supports the use of linear classifiers in Phase 2.")
 
 # PAGE 3 — BASELINE CLASSIFICATION
 elif page == "Baseline Classification":
@@ -302,7 +301,7 @@ elif page == "Baseline Classification":
 
     st.markdown("---")
     st.subheader("Key Finding")
-    st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, contrary to the conventional expectation that more complex models perform better. This suggests the decision boundary between malignant and benign is largely linear, which is supported by the clear class separation observed in Phase 1.")
+    st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, disproving the initial assumption that more complex models perform better. This indicates that the decision boundary between the classes are largely linear, as observed in Phase 1.")
 
 # PAGE 4 — CLASS DISTRIBUTION
 elif page == "Class Distribution":
