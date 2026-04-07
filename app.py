@@ -301,7 +301,7 @@ elif page == "Baseline Classification":
 
     st.markdown("---")
     st.subheader("Key Finding")
-    st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, disproving the initial assumption that more complex models perform better. This indicates that the decision boundary between the classes are largely linear, as observed in Phase 1.")
+    st.info("Logistic Regression outperforms the more complex models, SVM and Random Forest, on this dataset. This indicates that the decision boundary between the classes is largely linear, as observed in Phase 1.")
 
 # PAGE 4 — CLASS DISTRIBUTION
 elif page == "Class Distribution":
@@ -356,7 +356,7 @@ elif page == "Class Distribution":
     st.markdown("---")
     col1, col2 = st.columns(2)
     col1.warning("**Sensitivity vs. Specificity Tradeoff**\n\nAs malignant cases increase in training (Case 3), sensitivity reaches 1.000 for all classifiers but specificity drops significantly. Classifiers become overly aggressive in predicting malignant.")
-    col2.error("**Case 1 is the most clinically dangerous**\n\nCase 1 (20/80) is closest to real clinical distribution yet produces the worst sensitivity across all classifiers. Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed.")
+    col2.error("**Case 1 is the most concerning**\n\nCase 1 (20/80) is closest to real clinical distribution yet produces the worst sensitivity across all classifiers. Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed.")
 
 # PAGE 5 — REAL WORLD IMPACT
 elif page == "Real World Impact":
