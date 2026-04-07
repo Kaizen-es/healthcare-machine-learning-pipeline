@@ -404,7 +404,7 @@ elif page == "Real World Impact":
     st.markdown("---")
     st.subheader("Global Scale Context")
     st.markdown("""
-    - 2.3 million women were diagnosed with breast cancer globally in 2023
+    - 2.3 million women were diagnosed with breast cancer globally in 2022
     - In 2026, an estimated 382,640 women in the US will be diagnosed with breast cancer
     - By 2040, global incidence projected to exceed 3 million per year
     - A 1% sensitivity drop equals approximately 23,000 missed diagnoses globally per year
