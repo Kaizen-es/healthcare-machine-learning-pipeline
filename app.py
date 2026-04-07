@@ -139,7 +139,7 @@ def kde_trace(data, color, name, show_legend=True):
                       line=dict(color=color, width=2), showlegend=show_legend)
 
 #  Sidebar Nav 
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Northeastern_University_logo.svg/320px-Northeastern_University_logo.svg.png", width=180)
+st.sidebar.markdown("### Northeastern University")
 st.sidebar.markdown("---")
 page = st.sidebar.radio("Navigate", [
     "Overview",
@@ -154,7 +154,6 @@ st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
 
 # PAGE 1 — OVERVIEW
-
 if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
     st.markdown("#### Wisconsin Breast Cancer Dataset · EECE 5642 Final Project")
@@ -256,7 +255,6 @@ elif page == "Feature Exploration":
     st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, supporting the use of linear classifiers in Phase 2.")
 
 # PAGE 3 — BASELINE CLASSIFICATION
-
 elif page == "Baseline Classification":
     st.title("Baseline Classification")
     st.markdown("All three classifiers trained on the original Wisconsin dataset (37% malignant / 63% benign), evaluated on a fixed 20% test set.")
