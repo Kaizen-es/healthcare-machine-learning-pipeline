@@ -5,14 +5,14 @@ from scipy.stats import gaussian_kde
 import numpy as np
 import pandas as pd
 
-# ── Page Config ───────────────────────────────────────────────────────────
+#  Page Config 
 st.set_page_config(
     page_title="Breast Cancer Classification",
     page_icon=None,
     layout="wide"
 )
 
-# ── Hardcoded Data ────────────────────────────────────────────────────────
+# Hardcoded Data 
 # Cases reordered: benign-heavy to malignant-heavy spectrum
 CASES = ['Case 1 (20/80)', 'Baseline (37/63)', 'Case 2 (50/50)', 'Case 3 (80/20)']
 CLFS  = ['Logistic Regression', 'SVM', 'Random Forest']
@@ -87,7 +87,7 @@ training_sizes = {
 us_cases     = 382640
 global_cases = 2300000
 
-# ── Color Constants ────────────────────────────────────────────────────────
+#  Color Constants 
 C_BENIGN    = '#2ecc71'
 C_MALIGNANT = '#e74c3c'
 C_LR        = '#3498db'
@@ -95,14 +95,15 @@ C_SVM       = '#e67e22'
 C_RF        = '#9b59b6'
 CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
-# ── Helpers ────────────────────────────────────────────────────────────────
+# Helpers 
 def metric_line_chart(metric_dict, title, y_label, y_range):
+    dash_style = {'Logistic Regression': 'dash', 'SVM': 'solid', 'Random Forest': 'dot'}
     fig = go.Figure()
     for clf in CLFS:
         fig.add_trace(go.Scatter(
             x=CASES, y=[metric_dict[c][clf] for c in CASES],
             mode='lines+markers', name=clf,
-            line=dict(color=CLF_COLORS[clf], width=2.5),
+            line=dict(color=CLF_COLORS[clf], width=2.5, dash=dash_style[clf]),
             marker=dict(size=8)
         ))
     fig.update_layout(
@@ -137,7 +138,7 @@ def kde_trace(data, color, name, show_legend=True):
                       fill='tozeroy', opacity=0.5,
                       line=dict(color=color, width=2), showlegend=show_legend)
 
-# ── Sidebar Nav ────────────────────────────────────────────────────────────
+#  Sidebar Nav 
 st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Northeastern_University_logo.svg/320px-Northeastern_University_logo.svg.png", width=180)
 st.sidebar.markdown("---")
 page = st.sidebar.radio("Navigate", [
@@ -151,9 +152,9 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("**EECE 5642 — Data Visualization**")
 st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
-# ══════════════════════════════════════════════════════════════════════════
+
 # PAGE 1 — OVERVIEW
-# ══════════════════════════════════════════════════════════════════════════
+
 if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
     st.markdown("#### Wisconsin Breast Cancer Dataset · EECE 5642 Final Project")
@@ -209,9 +210,7 @@ if page == "Overview":
     col2.info("**Resampling**\n\nHybrid RandomOverSampler + RandomUnderSampler. Fixed training size of 455 samples across all cases. SMOTE excluded to avoid altering data geometry.")
     col3.info("**Implementation**\n\nResults are pre-computed from Google Colab. This interactive visualization tool presents hardcoded outputs for reliable live presentation.")
 
-# ══════════════════════════════════════════════════════════════════════════
 # PAGE 2 — FEATURE EXPLORATION
-# ══════════════════════════════════════════════════════════════════════════
 elif page == "Feature Exploration":
     st.title("Feature Exploration")
     st.markdown("Comparing the distribution of 10 cell nucleus mean features across Benign and Malignant classes.")
@@ -252,34 +251,12 @@ elif page == "Feature Exploration":
                                   margin=dict(t=30, b=20, l=10, r=10),
                                   title=dict(text=feat.replace('_', ' '), font_size=11))
             col.plotly_chart(fig, use_container_width=True)
-
-    st.markdown("---")
-    st.subheader("Feature Separation Strength")
-    st.markdown("Absolute mean difference between malignant and benign for each feature. Larger values indicate stronger class separation.")
-
-    sep = {}
-    for feat in features:
-        b_mean = np.mean(feature_data[feat]['benign'])
-        m_mean = np.mean(feature_data[feat]['malignant'])
-        sep[feat] = abs(m_mean - b_mean)
-
-    sorted_feats = sorted(sep, key=sep.get)
-    fig = go.Figure(go.Bar(
-        x=[sep[f] for f in sorted_feats],
-        y=[f.replace('_', ' ') for f in sorted_feats],
-        orientation='h',
-        marker_color=[C_MALIGNANT if sep[f] == max(sep.values()) else C_LR for f in sorted_feats]
-    ))
-    fig.update_layout(template='plotly_white', height=380,
-                      xaxis_title='Absolute Mean Difference (Malignant vs Benign)',
-                      margin=dict(l=160))
-    st.plotly_chart(fig, use_container_width=True)
+ 
 
     st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, supporting the use of linear classifiers in Phase 2.")
 
-# ══════════════════════════════════════════════════════════════════════════
 # PAGE 3 — BASELINE CLASSIFICATION
-# ══════════════════════════════════════════════════════════════════════════
+
 elif page == "Baseline Classification":
     st.title("Baseline Classification")
     st.markdown("All three classifiers trained on the original Wisconsin dataset (37% malignant / 63% benign), evaluated on a fixed 20% test set.")
@@ -329,9 +306,7 @@ elif page == "Baseline Classification":
     st.subheader("Key Finding")
     st.info("Logistic Regression outperforms SVM and Random Forest on this dataset, contrary to the conventional expectation that more complex models perform better. This suggests the decision boundary between malignant and benign is largely linear, which is supported by the clear class separation observed in Phase 1.")
 
-# ══════════════════════════════════════════════════════════════════════════
 # PAGE 4 — CLASS DISTRIBUTION
-# ══════════════════════════════════════════════════════════════════════════
 elif page == "Class Distribution":
     st.title("Class Distribution Experiment")
     st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set. Cases are ordered from benign-heavy to malignant-heavy.")
@@ -386,9 +361,7 @@ elif page == "Class Distribution":
     col1.warning("**Sensitivity vs. Specificity Tradeoff**\n\nAs malignant cases increase in training (Case 3), sensitivity reaches 1.000 for all classifiers but specificity drops significantly. Classifiers become overly aggressive in predicting malignant.")
     col2.error("**Case 1 is the most clinically dangerous**\n\nCase 1 (20/80) is closest to real clinical distribution yet produces the worst sensitivity across all classifiers. Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed.")
 
-# ══════════════════════════════════════════════════════════════════════════
 # PAGE 5 — REAL WORLD IMPACT
-# ══════════════════════════════════════════════════════════════════════════
 elif page == "Real World Impact":
     st.title("Real World Impact")
     st.markdown("Translating classifier sensitivity drops into missed diagnoses at scale.")
@@ -434,11 +407,10 @@ elif page == "Real World Impact":
     st.markdown("---")
     st.subheader("Global Scale Context")
     st.markdown("""
-    - 2.3 million women diagnosed with breast cancer globally in 2022
-    - 310,720 new invasive breast cancer cases in the US in 2024
+    - 2.3 million women were diagnosed with breast cancer globally in 2023
+    - In 2026, an estimated 382,640 women in the US will be diagnosed with breast cancer
     - By 2040, global incidence projected to exceed 3 million per year
     - A 1% sensitivity drop equals approximately 23,000 missed diagnoses globally per year
-    - Case 1 Random Forest sensitivity drop of 7.2% equals approximately 165,600 missed cases globally per year
     """)
 
     st.markdown("---")
