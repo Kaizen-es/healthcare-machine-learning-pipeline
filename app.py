@@ -204,7 +204,7 @@ if page == "Overview":
     st.markdown("---")
     st.subheader("Methodology Notes")
     col1, col2, col3 = st.columns(3)
-    col1.info("**Train/Test Split**\n\n80/20 with stratify=y to preserve class ratio. Test set is fixed across all experiments.")
+    col1.info("**Train/Test Split**\n\n80/20 with stratified split to preserve class ratio. Test set is fixed across all experiments.")
     col2.info("**Resampling**\n\nHybrid RandomOverSampler + RandomUnderSampler. Fixed training size of 455 samples across all cases. SMOTE excluded to avoid altering data geometry.")
     col3.info("**Implementation**\n\nResults are pre-computed from Google Colab. This interactive visualization tool presents hardcoded outputs for reliable live presentation.")
 
