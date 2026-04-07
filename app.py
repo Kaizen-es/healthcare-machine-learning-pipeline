@@ -378,7 +378,7 @@ elif page == "Real World Impact":
 
         st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
         st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
-                  delta=f"{drop:+.1%}", delta_color="inverse")
+                  delta=f"{-drop:+.1%}", delta_color="inverse")
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
