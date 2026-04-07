@@ -382,7 +382,7 @@ elif page == "Real World Impact":
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
-    col1.metric("Sensitivity Drop",         f"{abs(drop):.1%}")
+    col1.metric("Sensitivity Drop",         f"{(drop):.1%}")
     col2.metric("Missed Diagnoses (US)",    f"{us_missed:,}")
     col3.metric("Missed Diagnoses (Global)",f"{global_missed:,}")
 
