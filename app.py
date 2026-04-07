@@ -361,7 +361,7 @@ elif page == "Class Distribution":
 # PAGE 5 — REAL WORLD IMPACT
 elif page == "Real World Impact":
     st.title("Real World Impact")
-    st.markdown("Translating classifier sensitivity drops into missed diagnoses at scale.")
+    st.markdown("Translating classifier sensitivity drops into missed diagnoses.")
     st.markdown("---")
 
     st.subheader("Impact Calculator")
@@ -373,8 +373,8 @@ elif page == "Real World Impact":
         baseline_sen  = sensitivity['Baseline (37/63)'][selected_clf]
         case_sen      = sensitivity[selected_case][selected_clf]
         drop          = baseline_sen - case_sen
-        us_missed     = int(abs(drop) * us_cases)
-        global_missed = int(abs(drop) * global_cases)
+        us_missed     = int(drop) * us_cases)
+        global_missed = int(drop) * global_cases)
 
         st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
         st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
@@ -396,7 +396,7 @@ elif page == "Real World Impact":
         ))
     fig.update_layout(barmode='group', template='plotly_white',
                       height=380, yaxis=dict(range=[0.8, 1.01]),
-                      xaxis_title='Class Distribution (Benign-heavy to Malignant-heavy)',
+                      xaxis_title='Class Distribution',
                       yaxis_title='Sensitivity',
                       legend=dict(orientation='h', y=1.1))
     st.plotly_chart(fig, use_container_width=True)
@@ -419,6 +419,6 @@ elif page == "Real World Impact":
     This means classifiers deployed in clinical settings are most likely to operate under Case 1 conditions,
     which is precisely the scenario that produces the worst sensitivity in this experiment.
 
-    This finding directly motivates the need to study and address class distribution effects
-    before deploying AI tools in medical diagnosis.
+    This finding reinforces the need to study and address class distribution effects
+    before deploying AI tools in the field of healthcare.
     """)
