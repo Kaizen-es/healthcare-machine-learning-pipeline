@@ -5,92 +5,15 @@ from scipy.stats import gaussian_kde
 import numpy as np
 import pandas as pd
 
-# ── Page Config ───────────────────────────────────────────────────────────
+#  Page Config 
 st.set_page_config(
     page_title="Breast Cancer Classification",
     page_icon=None,
     layout="wide"
 )
 
-# ── Minimal accent CSS — no font imports, just light color touches ────────
-st.markdown("""
-<style>
-/* Subtle top accent bar */
-[data-testid="stAppViewContainer"] > .main::before {
-    content: '';
-    display: block;
-    height: 4px;
-    background: linear-gradient(90deg, #2ecc71 0%, #e74c3c 100%);
-    margin-bottom: 0.5rem;
-}
-
-/* Page title accent */
-h1 {
-    border-left: 5px solid #e74c3c;
-    padding-left: 0.6rem !important;
-}
-
-/* Sidebar accent */
-[data-testid="stSidebar"] {
-    border-right: 3px solid #2ecc71;
-}
-
-/* Overview phase cards */
-.phase-card {
-    border-radius: 8px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 0.5rem;
-    border-left: 4px solid;
-}
-.phase-card.green  { border-color: #2ecc71; background: #f0fdf4; }
-.phase-card.blue   { border-color: #3498db; background: #eff8ff; }
-.phase-card.orange { border-color: #e67e22; background: #fff7ed; }
-.phase-card h4 { margin: 0 0 0.3rem 0; font-size: 0.9rem; }
-.phase-card p  { margin: 0; font-size: 0.85rem; color: #444; }
-
-/* Research question highlight */
-.rq-box {
-    background: #fafafa;
-    border: 1px solid #e0e0e0;
-    border-left: 4px solid #e74c3c;
-    border-radius: 6px;
-    padding: 0.9rem 1.1rem;
-    font-style: italic;
-    color: #333;
-    margin-bottom: 1rem;
-    font-size: 1.0rem;
-}
-
-/* Legend row for feature exploration */
-.legend-row {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 0.5rem 1rem;
-    background: #f8f8f8;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    margin-bottom: 0.8rem;
-    width: fit-content;
-}
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: #333;
-}
-.legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ── Hardcoded Data ────────────────────────────────────────────────────────
+# Hardcoded Data 
+# Cases reordered: benign-heavy to malignant-heavy spectrum
 CASES = ['Case 1 (20/80)', 'Baseline (37/63)', 'Case 2 (50/50)', 'Case 3 (80/20)']
 CLFS  = ['Logistic Regression', 'SVM', 'Random Forest']
 
@@ -164,17 +87,15 @@ training_sizes = {
 us_cases     = 382640
 global_cases = 2300000
 
-# ── Color Constants ───────────────────────────────────────────────────────
-# Benign / Malignant: original green and red kept
+#  Color Constants 
 C_BENIGN    = '#2ecc71'
 C_MALIGNANT = '#e74c3c'
-# Classifiers: new distinct palette — teal, amber, indigo
-C_LR        = '#00b4a0'   # teal
-C_SVM       = '#f0a500'   # amber
-C_RF        = '#6c5ce7'   # indigo
+C_LR        = '#3498db'
+C_SVM       = '#e67e22'
+C_RF        = '#9b59b6'
 CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
-# ── Helpers ───────────────────────────────────────────────────────────────
+# Helpers 
 def metric_line_chart(metric_dict, title, y_label, y_range):
     fig = go.Figure()
     for clf in CLFS:
@@ -216,41 +137,8 @@ def kde_trace(data, color, name, show_legend=True):
                       fill='tozeroy', opacity=0.5,
                       line=dict(color=color, width=2), showlegend=show_legend)
 
-def radar_chart(case):
-    categories = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
-    fig = go.Figure()
-    for clf in CLFS:
-        vals = [
-            accuracy[case][clf],
-            sensitivity[case][clf],
-            specificity[case][clf],
-            auc[case][clf],
-        ]
-        vals  += [vals[0]]
-        cats   = categories + [categories[0]]
-        fig.add_trace(go.Scatterpolar(
-            r=vals, theta=cats, fill='toself', name=clf,
-            line=dict(color=CLF_COLORS[clf], width=2),
-            fillcolor=CLF_COLORS[clf], opacity=0.15
-        ))
-    fig.update_layout(
-        polar=dict(
-            radialaxis=dict(
-                visible=True, range=[0.8, 1.0],
-                tickvals=[0.85, 0.90, 0.95, 1.0],
-                ticktext=['85%', '90%', '95%', '100%'],
-            )
-        ),
-        template='plotly_white',
-        showlegend=True,
-        legend=dict(orientation='h', y=-0.1),
-        height=400,
-        title=dict(text=f'All Metrics Radar — {case}', font=dict(size=13))
-    )
-    return fig
-
-# ── Sidebar ───────────────────────────────────────────────────────────────
-st.sidebar.markdown("### EECE 5642 — Data Visualization")
+#  Sidebar Nav 
+st.sidebar.markdown("### EECE 5642 - Data Visualization")
 st.sidebar.markdown("---")
 page = st.sidebar.radio("**Navigate**", [
     "Overview",
@@ -263,15 +151,12 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 1 — OVERVIEW  (restructured)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 1 — OVERVIEW
 if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
     st.markdown("#### Wisconsin Breast Cancer Dataset")
     st.markdown("---")
 
-    # ── Dataset stats ──
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Samples",   "569")
     col2.metric("Features",        "30")
@@ -279,83 +164,51 @@ if page == "Overview":
     col4.metric("Malignant Cases", f"{class_counts['Malignant']} (37%)")
 
     st.markdown("---")
-
-    # ── Research question + donut side by side ──
-    c1, c2 = st.columns([1.1, 0.9])
+    c1, c2 = st.columns([1, 1])
     with c1:
         st.subheader("Research Question")
         st.markdown("""
-        <div class="rq-box">
-        How does the balance of malignant vs. benign cases in training data affect classifier performance?
-        </div>
-        """, unsafe_allow_html=True)
-        st.markdown("""
-        Breast cancer is one of the most diagnosed cancers in the world.
-        AI-assisted tools are continuously being used to enhance detection,
-        but these models are only as reliable as the data they are trained on.
+        > *How does the balance of malignant vs. benign cases in training data affect classifier performance?*
 
-        In real clinical settings, approximately **80% of confirmed diagnoses are benign**
-        and only **20% are malignant**. This project investigates what happens when that ratio shifts.
+        Breast cancer is one of the most diagnosed cancers in the world.
+        AI-assisted tools are continuously being used to enhance detection, 
+        but these models are only as reliable as the data they are trained on
+       
+
+        In real clinical settings, approximately 80% of confirmed diagnoses are benign
+        and only 20% are malignant. This project investigates what happens when that ratio shifts.
         """)
     with c2:
-        st.subheader("Dataset Distribution")
-        fig = go.Figure(go.Pie(
-            labels=list(class_counts.keys()),
-            values=list(class_counts.values()),
-            hole=0.5,
-            marker_colors=[C_BENIGN, C_MALIGNANT],
-            textinfo='label+percent',
-            marker=dict(line=dict(color='white', width=2))
-        ))
-        fig.update_layout(
-            template='plotly_white', height=280,
-            showlegend=False,
-            margin=dict(t=10, b=10, l=10, r=10),
-            annotations=[dict(
-                text='569<br><span style="font-size:11px">samples</span>',
-                x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color='#333')
-            )]
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        st.subheader("Project Structure")
+        st.markdown("""
+        | Phase | Focus |
+        |-------|-------|
+        | **01 — Feature Exploration** | Are there observable structural differences between malignant and benign cells? |
+        | **02 — Baseline Classification** | Logistic Regression, SVM, Random Forest on the original dataset |
+        | **03 — Class Distribution** | Retrain on 20/80, 50/50, 80/20 malignant-to-benign ratios |
+        """)
 
     st.markdown("---")
-
-    # ── Three phase cards ──
-    st.subheader("Project Structure")
-    p1, p2, p3 = st.columns(3)
-    p1.markdown("""
-    <div class="phase-card green">
-        <h4>Phase 01 — Feature Exploration</h4>
-        <p>Are there observable structural differences between malignant and benign cells? Visualize distributions across 10 mean features.</p>
-    </div>
-    """, unsafe_allow_html=True)
-    p2.markdown("""
-    <div class="phase-card blue">
-        <h4>Phase 02 — Baseline Classification</h4>
-        <p>Logistic Regression, SVM, and Random Forest trained on the original 37/63 distribution. Establish baseline accuracy, sensitivity, specificity, and AUC-ROC.</p>
-    </div>
-    """, unsafe_allow_html=True)
-    p3.markdown("""
-    <div class="phase-card orange">
-        <h4>Phase 03 — Class Distribution</h4>
-        <p>Retrain all classifiers on controlled 20/80, 50/50, and 80/20 malignant-to-benign ratios. Measure how performance shifts.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.subheader("Class Distribution in Dataset")
+    fig = go.Figure(go.Pie(
+        labels=list(class_counts.keys()),
+        values=list(class_counts.values()),
+        hole=0.45,
+        marker_colors=[C_BENIGN, C_MALIGNANT],
+        textinfo='label+percent'
+    ))
+    fig.update_layout(template='plotly_white', height=320,
+                      showlegend=False, margin=dict(t=20, b=20))
+    st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
-
-    # ── Methodology notes (original) ──
     st.subheader("Methodology Notes")
     col1, col2, col3 = st.columns(3)
     col1.info("**Train/Test Split**\n\n80/20 with stratified split to preserve class ratio. Test set is fixed across all experiments.")
     col2.info("**Resampling**\n\nHybrid RandomOverSampler + RandomUnderSampler. Fixed training size of 455 samples across all cases. SMOTE excluded to avoid altering data geometry.")
     col3.info("**Implementation**\n\nResults are pre-computed from Google Colab. This interactive visualization tool presents hardcoded outputs for reliable live presentation.")
 
-
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 2 — FEATURE EXPLORATION  (original + legend added)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 2 — FEATURE EXPLORATION
 elif page == "Feature Exploration":
     st.title("Feature Exploration")
     st.markdown("Comparing the distribution of 10 cell nucleus mean features across Benign and Malignant classes.")
@@ -363,21 +216,9 @@ elif page == "Feature Exploration":
     chart_type = st.radio("Chart Type", ["Histogram", "KDE Curves", "Box Plot"], horizontal=True)
     st.markdown("---")
 
-    # ── Legend ──
-    st.markdown("""
-    <div class="legend-row">
-        <span class="legend-item">
-            <span class="legend-dot" style="background:#2ecc71"></span> Benign (357)
-        </span>
-        <span class="legend-item">
-            <span class="legend-dot" style="background:#e74c3c"></span> Malignant (212)
-        </span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    features     = list(feature_data.keys())
-    cols_per_row = 5
-    rows         = [features[i:i+cols_per_row] for i in range(0, len(features), cols_per_row)]
+    features      = list(feature_data.keys())
+    cols_per_row  = 5
+    rows          = [features[i:i+cols_per_row] for i in range(0, len(features), cols_per_row)]
 
     for row in rows:
         cols = st.columns(len(row))
@@ -408,13 +249,11 @@ elif page == "Feature Exploration":
                                   margin=dict(t=30, b=20, l=10, r=10),
                                   title=dict(text=feat.replace('_', ' '), font_size=11))
             col.plotly_chart(fig, use_container_width=True)
+ 
 
     st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, which supports the use of linear classifiers in Phase 2.")
 
-
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 3 — BASELINE CLASSIFICATION  (original, new classifier colors apply)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 3 — BASELINE CLASSIFICATION
 elif page == "Baseline Classification":
     st.title("Baseline Classification")
     st.markdown("All three classifiers trained on the original Wisconsin dataset (37% malignant / 63% benign), evaluated on a fixed 20% test set.")
@@ -464,10 +303,7 @@ elif page == "Baseline Classification":
     st.subheader("Key Finding")
     st.info("Logistic Regression outperforms the more complex models, SVM and Random Forest, on this dataset. This indicates that the decision boundary between the classes is largely linear, as observed in Phase 1.")
 
-
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 4 — CLASS DISTRIBUTION  (original + radar chart added)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 4 — CLASS DISTRIBUTION
 elif page == "Class Distribution":
     st.title("Class Distribution Experiment")
     st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set. Cases are ordered from benign-heavy to malignant-heavy.")
@@ -499,11 +335,6 @@ elif page == "Class Distribution":
                     use_container_width=True)
 
     st.markdown("---")
-    st.subheader("Multi-Metric Radar View")
-    radar_case = st.selectbox("Select Case for Radar Chart", CASES)
-    st.plotly_chart(radar_chart(radar_case), use_container_width=True)
-
-    st.markdown("---")
     st.subheader("Confusion Matrices by Case")
     case_choice = st.selectbox("Select Case", CASES)
     st.plotly_chart(confusion_matrix_fig(case_choice), use_container_width=True)
@@ -527,10 +358,7 @@ elif page == "Class Distribution":
     col1.warning("**Sensitivity vs. Specificity Tradeoff**\n\nAs malignant cases increase in training (Case 3), sensitivity reaches 1.000 for all classifiers but specificity drops significantly. Classifiers become overly aggressive in predicting malignant.")
     col2.error("**Case 1 is the most concerning**\n\nCase 1 (20/80) is closest to real clinical distribution yet produces the worst sensitivity across all classifiers. Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed.")
 
-
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 5 — REAL WORLD IMPACT  (original, new classifier colors apply)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 5 — REAL WORLD IMPACT
 elif page == "Real World Impact":
     st.title("Real World Impact")
     st.markdown("Translating classifier sensitivity drops into missed diagnoses.")
@@ -594,3 +422,4 @@ elif page == "Real World Impact":
     This finding reinforces the need to study and address class distribution effects
     before deploying AI tools in the field of healthcare.
     """)
+
