@@ -8,9 +8,120 @@ import pandas as pd
 #  Page Config 
 st.set_page_config(
     page_title="Breast Cancer Classification",
-    page_icon=None,
+    page_icon="🔬",
     layout="wide"
 )
+
+# ── Professional Theme ────────────────────────────────────────────────────
+st.markdown("""
+<style>
+/* ── Google Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Global ── */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #0f1b2d 0%, #1a2e4a 100%);
+    border-right: 1px solid #2a4066;
+}
+[data-testid="stSidebar"] * {
+    color: #cdd9e8 !important;
+}
+[data-testid="stSidebar"] .stRadio label {
+    color: #cdd9e8 !important;
+    font-size: 0.92rem;
+    padding: 4px 0;
+}
+[data-testid="stSidebar"] hr {
+    border-color: #2a4066 !important;
+}
+[data-testid="stSidebar"] h3 {
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ── Main background ── */
+.main .block-container {
+    background-color: #f8f9fc;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* ── Page titles ── */
+h1 {
+    color: #0f1b2d !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+    border-bottom: 3px solid #c0392b;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.2rem;
+}
+
+/* ── Subheaders ── */
+h2, h3 {
+    color: #1a2e4a !important;
+    font-weight: 600 !important;
+}
+
+/* ── Metric cards ── */
+[data-testid="metric-container"] {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+[data-testid="metric-container"] label {
+    color: #64748b !important;
+    font-size: 0.78rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+[data-testid="metric-container"] [data-testid="stMetricValue"] {
+    color: #0f1b2d !important;
+    font-weight: 700 !important;
+    font-size: 1.6rem !important;
+}
+
+/* ── Callout boxes ── */
+.stAlert {
+    border-radius: 8px !important;
+    border-left-width: 4px !important;
+}
+
+/* ── Dataframe ── */
+[data-testid="stDataFrame"] {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+/* ── Selectbox / radio ── */
+[data-testid="stSelectbox"] > div, [data-testid="stRadio"] > div {
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+/* ── Horizontal rule ── */
+hr {
+    border-color: #e2e8f0 !important;
+    margin: 1.5rem 0 !important;
+}
+
+/* ── Active radio button accent ── */
+[data-testid="stSidebar"] [data-testid="stRadio"] input:checked + div {
+    color: #ffffff !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Hardcoded Data 
 # Cases reordered: benign-heavy to malignant-heavy spectrum
@@ -96,6 +207,13 @@ C_RF        = '#9b59b6'
 CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
 # Helpers 
+CHART_LAYOUT = dict(
+    template='plotly_white',
+    font=dict(family='Inter, sans-serif', size=12, color='#1a2e4a'),
+    paper_bgcolor='#ffffff',
+    plot_bgcolor='#f8f9fc',
+)
+
 def metric_line_chart(metric_dict, title, y_label, y_range):
     fig = go.Figure()
     for clf in CLFS:
@@ -103,30 +221,39 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
             x=CASES, y=[metric_dict[c][clf] for c in CASES],
             mode='lines+markers', name=clf,
             line=dict(color=CLF_COLORS[clf], width=2.5),
-            marker=dict(size=8)
+            marker=dict(size=9, line=dict(width=2, color='white'))
         ))
     fig.update_layout(
-        title=title, template='plotly_white',
-        xaxis_title='Class Distribution (Benign-heavy to Malignant-heavy)',
+        **CHART_LAYOUT,
+        title=dict(text=title, font=dict(size=14, color='#0f1b2d')),
+        xaxis_title='Class Distribution (Benign-heavy → Malignant-heavy)',
         yaxis_title=y_label,
-        yaxis=dict(range=y_range), height=380,
-        legend=dict(orientation='h', y=1.12)
+        yaxis=dict(range=y_range, gridcolor='#e2e8f0'),
+        xaxis=dict(gridcolor='#e2e8f0'),
+        height=380,
+        legend=dict(orientation='h', y=1.14, bgcolor='rgba(0,0,0,0)')
     )
     return fig
 
 def confusion_matrix_fig(case):
-    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS)
+    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS,
+                        horizontal_spacing=0.08)
     cm_colors = [[1, 0], [0, 1]]
     for i, clf in enumerate(CLFS):
         d  = cm_data[case][clf]
         cm = [[d['TN'], d['FP']], [d['FN'], d['TP']]]
         fig.add_trace(go.Heatmap(
-            z=cm_colors, x=['Benign', 'Malignant'], y=['Benign', 'Malignant'],
-            colorscale=[[0, C_MALIGNANT], [1, C_BENIGN]],
-            text=cm, texttemplate='%{text}', showscale=False, hoverinfo='none'
+            z=cm_colors, x=['Predicted Benign', 'Predicted Malignant'],
+            y=['Actual Benign', 'Actual Malignant'],
+            colorscale=[[0, '#e74c3c'], [1, '#27ae60']],
+            text=cm, texttemplate='<b>%{text}</b>', showscale=False,
+            hoverinfo='none'
         ), row=1, col=i+1)
-    fig.update_layout(template='plotly_white', height=320,
-                      title=f'Confusion Matrices — {case}')
+    fig.update_layout(
+        **CHART_LAYOUT,
+        height=330,
+        title=dict(text=f'Confusion Matrices — {case}', font=dict(size=14, color='#0f1b2d'))
+    )
     return fig
 
 def kde_trace(data, color, name, show_legend=True):
@@ -138,7 +265,8 @@ def kde_trace(data, color, name, show_legend=True):
                       line=dict(color=color, width=2), showlegend=show_legend)
 
 #  Sidebar Nav 
-st.sidebar.markdown("### EECE 5642 - Data Visualization")
+st.sidebar.markdown("## 🔬 EECE 5642")
+st.sidebar.markdown("**Data Visualization**")
 st.sidebar.markdown("---")
 page = st.sidebar.radio("**Navigate**", [
     "Overview",
@@ -148,7 +276,13 @@ page = st.sidebar.radio("**Navigate**", [
     "Real World Impact"
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("Stephany Erhabor · Spring 2026")
+st.sidebar.markdown("""
+<div style='font-size:0.78rem; color:#8aa4c0; line-height:1.8'>
+Stephany Erhabor<br>
+Spring 2026<br>
+Northeastern University
+</div>
+""", unsafe_allow_html=True)
 
 
 # PAGE 1 — OVERVIEW
@@ -193,12 +327,18 @@ if page == "Overview":
     fig = go.Figure(go.Pie(
         labels=list(class_counts.keys()),
         values=list(class_counts.values()),
-        hole=0.45,
+        hole=0.5,
         marker_colors=[C_BENIGN, C_MALIGNANT],
-        textinfo='label+percent'
+        textinfo='label+percent',
+        textfont=dict(size=13, family='Inter, sans-serif'),
+        marker=dict(line=dict(color='white', width=3))
     ))
-    fig.update_layout(template='plotly_white', height=320,
-                      showlegend=False, margin=dict(t=20, b=20))
+    fig.update_layout(
+        **CHART_LAYOUT,
+        height=340,
+        showlegend=False,
+        margin=dict(t=20, b=20, l=20, r=20)
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -228,26 +368,37 @@ elif page == "Feature Exploration":
             if chart_type == "Histogram":
                 fig = go.Figure()
                 fig.add_trace(go.Histogram(x=b, name='Benign', marker_color=C_BENIGN,
-                                           opacity=0.6, showlegend=False))
+                                           opacity=0.65, showlegend=False))
                 fig.add_trace(go.Histogram(x=m, name='Malignant', marker_color=C_MALIGNANT,
-                                           opacity=0.6, showlegend=False))
+                                           opacity=0.65, showlegend=False))
                 fig.update_layout(barmode='overlay', template='plotly_white',
-                                  height=220, margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                                  paper_bgcolor='#ffffff', plot_bgcolor='#f8f9fc',
+                                  font=dict(family='Inter, sans-serif', size=10),
+                                  height=220, margin=dict(t=32, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11,
+                                             font=dict(color='#0f1b2d', weight='bold')))
             elif chart_type == "KDE Curves":
                 fig = go.Figure()
                 fig.add_trace(kde_trace(b, C_BENIGN, 'Benign', False))
                 fig.add_trace(kde_trace(m, C_MALIGNANT, 'Malignant', False))
-                fig.update_layout(template='plotly_white', height=220,
-                                  margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                fig.update_layout(template='plotly_white',
+                                  paper_bgcolor='#ffffff', plot_bgcolor='#f8f9fc',
+                                  font=dict(family='Inter, sans-serif', size=10),
+                                  height=220, margin=dict(t=32, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11,
+                                             font=dict(color='#0f1b2d', weight='bold')))
             else:
                 fig = go.Figure()
-                fig.add_trace(go.Box(y=b, name='Benign', marker_color=C_BENIGN, showlegend=False))
-                fig.add_trace(go.Box(y=m, name='Malignant', marker_color=C_MALIGNANT, showlegend=False))
-                fig.update_layout(template='plotly_white', height=220,
-                                  margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                fig.add_trace(go.Box(y=b, name='Benign', marker_color=C_BENIGN,
+                                     showlegend=False, line=dict(color=C_BENIGN)))
+                fig.add_trace(go.Box(y=m, name='Malignant', marker_color=C_MALIGNANT,
+                                     showlegend=False, line=dict(color=C_MALIGNANT)))
+                fig.update_layout(template='plotly_white',
+                                  paper_bgcolor='#ffffff', plot_bgcolor='#f8f9fc',
+                                  font=dict(family='Inter, sans-serif', size=10),
+                                  height=220, margin=dict(t=32, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11,
+                                             font=dict(color='#0f1b2d', weight='bold')))
             col.plotly_chart(fig, use_container_width=True)
  
 
@@ -288,10 +439,11 @@ elif page == "Baseline Classification":
             y=metric_vals[metric],
         ))
     fig.update_layout(
-        barmode='group', template='plotly_white', height=400,
-        yaxis=dict(range=[0.85, 1.01]),
+        **CHART_LAYOUT,
+        barmode='group', height=400,
+        yaxis=dict(range=[0.85, 1.01], gridcolor='#e2e8f0'),
         xaxis_title='Classifier', yaxis_title='Score',
-        legend=dict(orientation='h', y=1.1)
+        legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)')
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -317,9 +469,10 @@ elif page == "Class Distribution":
             y=[training_sizes[c][cls] for c in training_sizes],
             name=cls, marker_color=color
         ))
-    fig.update_layout(barmode='stack', template='plotly_white',
+    fig.update_layout(**CHART_LAYOUT, barmode='stack',
                       height=300, xaxis_title='Case', yaxis_title='Samples',
-                      legend=dict(orientation='h', y=1.1))
+                      yaxis=dict(gridcolor='#e2e8f0'),
+                      legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)'))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -394,11 +547,11 @@ elif page == "Real World Impact":
             x=CASES, y=[sensitivity[c][clf] for c in CASES],
             name=clf, marker_color=CLF_COLORS[clf], opacity=0.85
         ))
-    fig.update_layout(barmode='group', template='plotly_white',
-                      height=380, yaxis=dict(range=[0.8, 1.01]),
+    fig.update_layout(**CHART_LAYOUT, barmode='group',
+                      height=380, yaxis=dict(range=[0.8, 1.01], gridcolor='#e2e8f0'),
                       xaxis_title='Class Distribution',
                       yaxis_title='Sensitivity',
-                      legend=dict(orientation='h', y=1.1))
+                      legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)'))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
