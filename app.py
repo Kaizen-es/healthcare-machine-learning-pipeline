@@ -217,7 +217,8 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
             marker=dict(size=10, line=dict(width=2, color='white'))
         ))
     fig.update_layout(
-        title=dict(text=title, font=dict(size=15)),
+    
+        title=dict(text=title, font=dict(size=15), x=0.5, xanchor='center'),
         template='plotly_white',
         xaxis_title='Class Distribution (Benign-heavy → Malignant-heavy)',
         yaxis_title=y_label,
