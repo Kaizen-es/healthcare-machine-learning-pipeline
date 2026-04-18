@@ -12,222 +12,80 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── Theme: Dark Clinical ──────────────────────────────────────────────────
+# ── Minimal accent CSS — no font imports, just light color touches ────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-
-/* ── Reset & base ── */
-html, body, [class*="css"], .stApp {
-    font-family: 'DM Sans', sans-serif !important;
-    background-color: #0d1117 !important;
-    color: #e6edf3 !important;
-}
-
-/* ── Main content area ── */
-.main .block-container {
-    background-color: #0d1117 !important;
-    padding: 2rem 3rem 4rem 3rem !important;
-    max-width: 1400px !important;
-}
-
-/* ── Sidebar ── */
-[data-testid="stSidebar"] {
-    background-color: #161b22 !important;
-    border-right: 1px solid #30363d !important;
-}
-[data-testid="stSidebar"] > div {
-    padding-top: 2rem !important;
-}
-[data-testid="stSidebar"] * {
-    color: #8b949e !important;
-}
-[data-testid="stSidebar"] .stRadio label {
-    font-size: 0.9rem !important;
-    padding: 6px 12px !important;
-    border-radius: 6px !important;
-    transition: all 0.15s ease !important;
-    display: block !important;
-}
-[data-testid="stSidebar"] .stRadio label:hover {
-    background: #21262d !important;
-    color: #e6edf3 !important;
-}
-[data-testid="stSidebar"] hr {
-    border-color: #30363d !important;
-    margin: 1rem 0 !important;
-}
-
-/* ── Page titles ── */
-h1 {
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 2rem !important;
-    font-weight: 700 !important;
-    color: #e6edf3 !important;
-    letter-spacing: -0.03em !important;
-    margin-bottom: 0.25rem !important;
-    line-height: 1.2 !important;
-}
-
-/* ── Subheaders ── */
-h2 {
-    font-family: 'DM Sans', sans-serif !important;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: #8b949e !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.08em !important;
-    margin-top: 2rem !important;
-}
-h3 {
-    color: #e6edf3 !important;
-    font-weight: 600 !important;
-    font-size: 1.1rem !important;
-}
-
-/* ── Metric cards ── */
-[data-testid="metric-container"] {
-    background: #161b22 !important;
-    border: 1px solid #30363d !important;
-    border-radius: 12px !important;
-    padding: 1.2rem 1.4rem !important;
-}
-[data-testid="metric-container"] label {
-    color: #8b949e !important;
-    font-size: 0.72rem !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.1em !important;
-    font-family: 'DM Mono', monospace !important;
-}
-[data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: #e6edf3 !important;
-    font-weight: 700 !important;
-    font-size: 1.8rem !important;
-}
-[data-testid="metric-container"] [data-testid="stMetricDelta"] {
-    font-size: 0.85rem !important;
-}
-
-/* ── Divider ── */
-hr {
-    border: none !important;
-    border-top: 1px solid #21262d !important;
-    margin: 1.8rem 0 !important;
-}
-
-/* ── Alert/callout boxes ── */
-.stAlert {
-    border-radius: 10px !important;
-    border-left-width: 3px !important;
-    background: #161b22 !important;
-}
-
-/* ── Selectbox ── */
-[data-testid="stSelectbox"] > div > div {
-    background: #161b22 !important;
-    border-color: #30363d !important;
-    color: #e6edf3 !important;
-    border-radius: 8px !important;
-}
-
-/* ── Radio buttons ── */
-[data-testid="stRadio"] > div {
-    gap: 0.5rem !important;
-}
-
-/* ── Dataframe ── */
-[data-testid="stDataFrame"] {
-    border-radius: 10px !important;
-    border: 1px solid #30363d !important;
-    overflow: hidden !important;
-}
-
-/* ── Custom insight card ── */
-.insight-card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-left: 3px solid #58a6ff;
-    border-radius: 10px;
-    padding: 1rem 1.4rem;
-    margin: 1rem 0;
-    font-size: 0.93rem;
-    line-height: 1.6;
-    color: #c9d1d9;
-}
-.insight-card.warning {
-    border-left-color: #e3b341;
-}
-.insight-card.danger {
-    border-left-color: #f85149;
-}
-.insight-card.success {
-    border-left-color: #3fb950;
-}
-.insight-card strong {
-    color: #e6edf3;
+/* Subtle top accent bar */
+[data-testid="stAppViewContainer"] > .main::before {
+    content: '';
     display: block;
-    margin-bottom: 0.4rem;
-    font-size: 0.95rem;
+    height: 4px;
+    background: linear-gradient(90deg, #2ecc71 0%, #e74c3c 100%);
+    margin-bottom: 0.5rem;
 }
 
-/* ── Stat pill ── */
-.stat-pill {
-    display: inline-block;
-    background: #21262d;
-    border: 1px solid #30363d;
-    border-radius: 20px;
-    padding: 0.3rem 0.9rem;
-    font-size: 0.8rem;
-    font-family: 'DM Mono', monospace;
-    color: #8b949e;
-    margin: 0.2rem;
+/* Page title accent */
+h1 {
+    border-left: 5px solid #e74c3c;
+    padding-left: 0.6rem !important;
 }
 
-/* ── Page subtitle ── */
-.page-subtitle {
-    color: #8b949e;
-    font-size: 0.95rem;
-    margin-top: 0.25rem;
-    margin-bottom: 1.5rem;
+/* Sidebar accent */
+[data-testid="stSidebar"] {
+    border-right: 3px solid #2ecc71;
 }
 
-/* ── Legend row ── */
+/* Overview phase cards */
+.phase-card {
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid;
+}
+.phase-card.green  { border-color: #2ecc71; background: #f0fdf4; }
+.phase-card.blue   { border-color: #3498db; background: #eff8ff; }
+.phase-card.orange { border-color: #e67e22; background: #fff7ed; }
+.phase-card h4 { margin: 0 0 0.3rem 0; font-size: 0.9rem; }
+.phase-card p  { margin: 0; font-size: 0.85rem; color: #444; }
+
+/* Research question highlight */
+.rq-box {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #e74c3c;
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.0rem;
+}
+
+/* Legend row for feature exploration */
 .legend-row {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    padding: 0.6rem 1rem;
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 0.8rem;
     width: fit-content;
 }
-.legend-dot {
-    display: inline-flex;
+.legend-item {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    color: #c9d1d9;
-    font-family: 'DM Mono', monospace;
+    gap: 0.4rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #333;
 }
-.dot {
-    width: 11px;
-    height: 11px;
+.legend-dot {
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     display: inline-block;
-}
-
-/* ── Section label ── */
-.section-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #58a6ff;
-    margin-bottom: 0.6rem;
-    font-family: 'DM Mono', monospace;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -282,6 +140,7 @@ cm_data = {
         'Random Forest':       {'TN': 63, 'FP': 9,  'FN': 0, 'TP': 42},
     },
 }
+
 feature_data = {
     'radius_mean':            {'benign': [13.54,13.08,9.504,13.03,8.196,12.05,13.49,11.76,13.64,11.94,11.52,13.05,8.618,10.17,8.598,9.173,9.465,11.31,9.029,12.78,8.888,12.31,13.53,12.86,11.45,13.34,12.0,12.36,14.64,14.62,13.27,13.45,12.18,9.787,11.6,6.981,12.18,9.876,10.49,11.64,12.36,11.34,9.777,12.63,14.26,10.51,8.726,11.93,8.95,11.41,14.5,13.37,13.85,15.1,12.19,15.71,11.71,11.43,11.28,9.738,11.43,12.9,10.75,11.9,14.95,14.44,13.74,13.0,8.219,9.731,11.15,13.15,12.25,16.84,12.06,10.9,11.75,12.34,14.97,10.8,14.97,12.32,11.08,10.66,8.671,9.904,13.01,12.81,11.41,10.08,11.71,11.81,12.3,12.77,9.72,12.91,12.23,12.47,9.876,13.11,15.27,11.84,11.89,10.2,13.65,13.56,10.18,13.27,14.34,10.44,15.0,12.62,11.32,11.22,9.567,14.03,14.22,13.64,12.42,11.3,13.75,10.48,13.2,12.89,10.65,11.52,11.5,10.6,13.59,12.87,10.71,14.29,11.29,9.742,11.89,11.33,13.59,13.85,11.74,12.89,12.58,11.94,12.89,11.26,11.37,14.41,14.96,12.95,11.85,12.72,13.77,10.91,14.26,10.51,12.46,10.49,11.46,11.6,13.2,9.0,13.5,13.05,11.7,14.61,12.76,11.54,8.597,12.49,12.18,9.042,12.43,10.25,12.86,12.2,12.67,14.11,12.03,12.98,11.22,11.25,12.3,12.99,10.05,14.42,9.606,11.06,11.71,10.26,12.06,14.76,11.47,11.95,11.66,11.14,12.56,13.05,13.87,8.878,9.436,12.54,13.3,12.76,16.5,13.4,12.21,15.19,13.69,16.17,10.57,13.46,13.66,11.27,11.04,12.05,12.39,13.28,12.21,13.88,11.27,10.26,8.734,12.1,14.06,13.51,12.8,11.06,11.8,11.93,12.96,12.94,12.34,10.94,16.14,12.85,12.27,11.36,11.04,9.397,14.99,11.89,9.405,12.7,11.16,11.57,14.69,11.61,13.66,9.742,10.03,10.48,10.8,11.13,12.72,12.4,14.86,12.87,14.04,13.85,14.02,10.97,13.78,10.57,11.99,14.8,14.53,11.87,12.0,14.53,12.62,13.38,11.63,13.21,13.0,9.755,14.4,11.6,13.17,13.24,13.14,9.668,11.62,9.667,12.04,14.92,12.27,10.88,12.83,14.2,13.9,11.49,12.16,13.9,13.47,13.7,15.73,12.45,14.64,11.68,12.25,17.85,12.46,13.16,14.87,12.65,12.47,15.04,12.54,9.268,9.676,12.22,11.06,16.3,11.74,14.81,14.58,11.34,12.88,12.75,9.295,11.26,13.71,9.847,8.571,13.46,12.34,13.94,12.07,11.75,11.67,13.68,10.96,11.69,7.729,7.691,11.54,14.47,14.74,13.21,13.87,13.62,10.32,10.26,9.683,10.82,10.86,11.13,12.77,9.333,12.88,10.29,10.16,9.423,14.59,11.51,14.05,11.2,7.76],'malignant': [17.99,20.57,19.69,11.42,20.29,12.45,18.25,13.71,13.0,12.46,16.02,15.78,19.17,15.85,13.73,14.54,14.68,16.13,19.81,15.34,21.16,16.65,17.14,14.58,18.61,15.3,17.57,18.63,11.84,17.02,19.27,16.13,16.74,14.25,14.99,13.48,13.44,10.95,19.07,13.28,13.17,18.65,13.17,18.22,15.1,19.21,14.71,14.25,12.68,14.78,18.94,17.2,13.8,16.07,18.05,20.18,25.22,19.1,18.46,14.48,19.02,15.37,15.06,20.26,14.42,13.61,13.11,22.27,14.87,15.78,17.95,18.66,24.25,13.61,19.0,19.79,15.46,16.16,18.45,12.77,14.95,16.11,11.8,17.68,19.19,19.59,23.27,16.78,17.47,13.43,15.46,16.46,27.22,21.09,15.7,15.28,18.31,14.22,12.34,14.86,13.77,18.08,19.18,14.45,17.54,23.29,13.81,15.12,17.01,20.58,28.11,17.42,14.19,13.86,19.8,19.53,15.75,12.83,17.05,20.51,23.21,20.48,17.46,19.4,20.94,19.73,17.3,19.45,13.96,19.55,15.32,15.66,15.53,20.31,17.35,17.29,15.61,17.19,20.73,21.75,17.93,18.81,19.16,19.4,16.24,11.76,19.53,20.09,18.22,20.16,20.34,16.27,16.26,16.03,17.06,18.77,23.51,19.68,15.75,25.73,15.08,20.44,20.2,21.71,22.01,16.35,21.37,20.64,11.08,14.6,19.55,15.49,21.61,17.91,17.99,15.13,15.5,14.9,20.18,18.82,13.98,17.27,18.03,17.75,21.1,19.59,17.08,27.42,17.6,16.25,19.44,16.69,18.01,18.49,20.59,13.82,23.09,15.46,13.4,15.05,18.31,19.89,24.63,20.47,20.55,14.27,15.22,20.92,21.56,20.13,16.6,20.6]},
     'texture_mean':           {'benign': [14.36,15.71,12.44,18.42,16.84,14.63,22.3,21.6,16.34,18.24,18.75,19.31,11.79,14.88,20.98,13.86,21.01,19.04,17.33,16.49,14.64,16.52,10.94,18.0,20.97,15.86,15.65,21.8,15.24,24.02,14.76,18.3,17.84,19.94,12.84,13.43,20.52,19.4,19.29,18.33,18.54,21.26,16.99,20.76,19.65,20.19,15.83,21.53,15.76,10.82,10.89,16.39,17.21,16.39,13.29,13.93,16.67,15.39,13.39,11.97,17.31,15.92,14.97,14.65,18.77,15.18,17.91,20.78,20.7,15.34,13.08,15.34,17.94,19.46,12.74,12.96,20.18,22.22,19.76,9.71,16.95,12.39,14.71,15.15,14.45,18.06,22.22,13.06,14.92,15.11,17.19,17.39,15.9,21.41,18.22,16.33,19.56,18.6,17.27,22.54,12.91,18.94,18.35,17.48,13.16,13.9,17.53,17.02,13.47,15.46,15.51,23.97,27.08,33.81,15.91,21.25,27.85,15.6,15.04,18.19,23.77,19.86,17.43,14.11,25.22,14.93,18.45,18.95,21.84,16.21,20.39,16.82,13.04,15.67,17.36,14.16,17.84,15.18,14.02,15.7,18.4,20.76,13.12,19.96,18.89,19.73,19.1,16.02,17.46,13.78,13.27,12.35,18.17,23.09,19.89,18.61,18.16,24.49,15.82,14.4,12.71,13.84,19.11,15.69,13.37,10.72,18.6,16.85,14.08,18.9,17.0,16.18,13.32,15.21,17.3,12.88,17.93,19.35,19.86,14.78,19.02,14.23,17.53,16.54,16.84,14.96,15.45,14.71,18.9,14.74,16.03,14.96,17.07,14.07,19.07,18.59,16.21,15.49,18.32,18.07,21.57,18.84,18.29,16.95,18.02,13.21,16.07,16.07,20.22,28.21,15.15,12.96,14.93,22.72,17.48,13.72,14.09,16.16,15.5,12.22,16.84,17.72,17.18,18.89,17.46,14.83,17.26,10.91,18.29,16.17,14.95,18.59,14.86,21.37,17.92,17.57,16.83,21.68,22.11,21.17,21.7,12.17,21.41,19.04,13.98,16.02,19.13,19.12,21.28,14.98,21.98,16.62,17.67,17.68,16.94,19.54,15.98,19.6,15.66,17.2,15.79,18.32,24.89,17.66,19.34,21.54,28.23,13.98,17.15,30.72,29.29,25.25,25.13,28.2,26.99,18.36,18.22,20.13,20.74,18.1,18.18,18.49,28.14,14.93,29.97,15.62,15.73,20.53,16.62,14.59,18.03,19.24,14.06,17.64,11.28,16.41,16.85,16.17,22.44,13.23,12.83,20.54,20.21,18.17,17.31,16.74,16.32,12.87,13.14,20.04,17.12,15.7,14.69,14.7,13.66,18.61,18.22,16.7,13.9,19.83,18.68,15.68,13.1,18.75,12.27,13.17,13.44,17.56,20.02,16.33,17.62,24.44,25.49,25.44,14.44,24.99,25.42,28.06,20.7,23.23,16.35,16.58,19.34,24.21,21.48,22.44,29.43,21.94,28.92,27.61,19.59,27.88,22.68,23.93,27.15,29.37,24.54],'malignant': [10.38,17.77,21.25,20.38,14.34,15.7,19.98,20.83,21.82,24.04,23.24,17.89,24.8,23.95,22.61,27.54,20.13,20.68,22.15,14.26,23.04,21.38,16.4,21.53,20.25,25.27,15.05,25.11,18.7,23.98,26.47,17.88,21.59,21.72,25.2,20.82,21.58,21.35,24.81,20.28,21.81,17.6,18.66,18.7,22.02,18.57,21.59,22.15,23.84,23.94,21.31,24.52,15.79,19.65,16.15,23.97,24.91,26.29,18.52,21.46,24.59,22.76,19.83,23.03,19.77,24.98,15.56,19.67,16.67,22.91,20.01,17.12,20.2,24.69,18.91,25.12,19.48,21.54,21.91,22.47,17.57,18.05,16.58,20.74,15.94,18.15,22.04,18.8,24.68,19.63,11.89,20.11,21.87,26.57,20.31,22.41,18.58,23.12,26.86,23.21,22.29,21.84,22.49,20.22,19.32,26.67,23.75,16.68,20.26,22.14,18.47,25.56,23.81,16.93,21.56,32.47,20.25,22.33,19.08,27.81,26.97,21.46,39.28,23.5,23.56,19.82,17.08,19.33,17.05,28.77,17.27,23.2,33.56,27.06,23.06,22.13,19.38,22.07,31.12,20.99,24.48,19.98,26.6,18.18,18.77,18.14,18.9,23.86,18.87,19.66,21.51,20.71,21.88,15.51,21.0,21.43,24.27,21.68,19.22,17.46,25.74,21.78,26.83,17.25,21.9,23.29,15.1,17.35,18.83,23.29,23.21,19.97,22.28,21.02,20.66,29.81,21.08,22.53,19.54,21.97,19.62,25.42,16.85,28.03,20.52,25.0,27.15,26.27,23.33,19.51,18.82,20.2,20.56,17.52,21.24,24.49,19.83,23.95,20.52,19.07,20.58,20.26,21.6,20.67,20.86,22.55,30.62,25.09,22.39,28.25,28.08,29.33]},
@@ -306,66 +165,16 @@ us_cases     = 382640
 global_cases = 2300000
 
 # ── Color Constants ───────────────────────────────────────────────────────
-C_BENIGN    = '#3fb950'
-C_MALIGNANT = '#f85149'
-C_LR        = '#58a6ff'
-C_SVM       = '#d2a8ff'
-C_RF        = '#ffa657'
+# Benign / Malignant: original green and red kept
+C_BENIGN    = '#2ecc71'
+C_MALIGNANT = '#e74c3c'
+# Classifiers: new distinct palette — teal, amber, indigo
+C_LR        = '#00b4a0'   # teal
+C_SVM       = '#f0a500'   # amber
+C_RF        = '#6c5ce7'   # indigo
 CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
-# ── Chart base layout ─────────────────────────────────────────────────────
-def apply_theme(fig, height=400, title_text=None, xaxis_title=None, yaxis_title=None,
-                yaxis_range=None, legend=True, barmode=None, xaxis_gridcolor=True):
-    kw = dict(
-        template='plotly_dark',
-        paper_bgcolor='#161b22',
-        plot_bgcolor='#0d1117',
-        font=dict(family='DM Sans, sans-serif', color='#8b949e', size=12),
-        height=height,
-    )
-    if title_text:
-        kw['title'] = dict(text=title_text, font=dict(size=14, color='#e6edf3'))
-    if xaxis_title:
-        kw['xaxis_title'] = xaxis_title
-    if yaxis_title:
-        kw['yaxis_title'] = yaxis_title
-    if barmode:
-        kw['barmode'] = barmode
-    if legend:
-        kw['legend'] = dict(orientation='h', y=1.12, bgcolor='rgba(0,0,0,0)',
-                             font=dict(color='#c9d1d9', size=11))
-    else:
-        kw['showlegend'] = False
-    fig.update_layout(**kw)
-    fig.update_xaxes(gridcolor='#21262d', linecolor='#30363d',
-                     tickfont=dict(color='#8b949e'))
-    yax = dict(gridcolor='#21262d', linecolor='#30363d', tickfont=dict(color='#8b949e'))
-    if yaxis_range:
-        yax['range'] = yaxis_range
-    fig.update_yaxes(**yax)
-    return fig
-
-# ── Helper: insight card ──────────────────────────────────────────────────
-def insight(text, bold_title, kind='info'):
-    color_map = {'info': '#58a6ff', 'warning': '#e3b341', 'danger': '#f85149', 'success': '#3fb950'}
-    color = color_map.get(kind, '#58a6ff')
-    st.markdown(f"""
-    <div class="insight-card {'warning' if kind=='warning' else 'danger' if kind=='danger' else 'success' if kind=='success' else ''}">
-        <strong>{bold_title}</strong>
-        {text}
-    </div>
-    """, unsafe_allow_html=True)
-
-# ── Helper: feature legend ────────────────────────────────────────────────
-def feature_legend():
-    st.markdown("""
-    <div class="legend-row">
-        <span class="legend-dot"><span class="dot" style="background:#3fb950"></span> Benign (357)</span>
-        <span class="legend-dot"><span class="dot" style="background:#f85149"></span> Malignant (212)</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-# ── Helper: metric line chart ─────────────────────────────────────────────
+# ── Helpers ───────────────────────────────────────────────────────────────
 def metric_line_chart(metric_dict, title, y_label, y_range):
     fig = go.Figure()
     for clf in CLFS:
@@ -373,45 +182,40 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
             x=CASES, y=[metric_dict[c][clf] for c in CASES],
             mode='lines+markers', name=clf,
             line=dict(color=CLF_COLORS[clf], width=2.5),
-            marker=dict(size=9, line=dict(width=2, color='#0d1117'))
+            marker=dict(size=8)
         ))
-    apply_theme(fig, height=380, title_text=title,
-                xaxis_title='Class Distribution', yaxis_title=y_label,
-                yaxis_range=y_range, legend=True)
+    fig.update_layout(
+        title=title, template='plotly_white',
+        xaxis_title='Class Distribution (Benign-heavy to Malignant-heavy)',
+        yaxis_title=y_label,
+        yaxis=dict(range=y_range), height=380,
+        legend=dict(orientation='h', y=1.12)
+    )
     return fig
 
-# ── Helper: confusion matrix ──────────────────────────────────────────────
 def confusion_matrix_fig(case):
-    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS, horizontal_spacing=0.08)
+    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS)
+    cm_colors = [[1, 0], [0, 1]]
     for i, clf in enumerate(CLFS):
         d  = cm_data[case][clf]
         cm = [[d['TN'], d['FP']], [d['FN'], d['TP']]]
-        cm_colors = [[1, 0], [0, 1]]
         fig.add_trace(go.Heatmap(
-            z=cm_colors,
-            x=['Pred. Benign', 'Pred. Malignant'],
-            y=['Actual Benign', 'Actual Malignant'],
-            colorscale=[[0, '#f85149'], [1, '#3fb950']],
-            text=cm, texttemplate='<b>%{text}</b>',
-            textfont=dict(size=18, color='white'),
-            showscale=False, hoverinfo='none'
+            z=cm_colors, x=['Benign', 'Malignant'], y=['Benign', 'Malignant'],
+            colorscale=[[0, C_MALIGNANT], [1, C_BENIGN]],
+            text=cm, texttemplate='%{text}', showscale=False, hoverinfo='none'
         ), row=1, col=i+1)
-    apply_theme(fig, height=320, title_text=f'Confusion Matrices — {case}', legend=False)
-    for ann in fig.layout.annotations:
-        ann.font.color = '#c9d1d9'
-        ann.font.size  = 12
+    fig.update_layout(template='plotly_white', height=320,
+                      title=f'Confusion Matrices — {case}')
     return fig
 
-# ── Helper: KDE trace ─────────────────────────────────────────────────────
 def kde_trace(data, color, name, show_legend=True):
     arr = np.array(data)
     x   = np.linspace(arr.min(), arr.max(), 300)
     y   = gaussian_kde(arr)(x)
     return go.Scatter(x=x, y=y, mode='lines', name=name,
-                      fill='tozeroy', opacity=0.45,
+                      fill='tozeroy', opacity=0.5,
                       line=dict(color=color, width=2), showlegend=show_legend)
 
-# ── Helper: radar chart ───────────────────────────────────────────────────
 def radar_chart(case):
     categories = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
     fig = go.Figure()
@@ -422,49 +226,33 @@ def radar_chart(case):
             specificity[case][clf],
             auc[case][clf],
         ]
-        vals_closed = vals + [vals[0]]
-        cats_closed = categories + [categories[0]]
+        vals  += [vals[0]]
+        cats   = categories + [categories[0]]
         fig.add_trace(go.Scatterpolar(
-            r=vals_closed, theta=cats_closed,
-            fill='toself', name=clf,
+            r=vals, theta=cats, fill='toself', name=clf,
             line=dict(color=CLF_COLORS[clf], width=2),
-            fillcolor=CLF_COLORS[clf],
-            opacity=0.18
+            fillcolor=CLF_COLORS[clf], opacity=0.15
         ))
     fig.update_layout(
         polar=dict(
-            bgcolor='#0d1117',
             radialaxis=dict(
                 visible=True, range=[0.8, 1.0],
-                gridcolor='#30363d', linecolor='#30363d',
-                tickfont=dict(color='#8b949e', size=9),
                 tickvals=[0.85, 0.90, 0.95, 1.0],
                 ticktext=['85%', '90%', '95%', '100%'],
-            ),
-            angularaxis=dict(
-                gridcolor='#30363d', linecolor='#30363d',
-                tickfont=dict(color='#c9d1d9', size=11)
             )
         ),
-        paper_bgcolor='#161b22',
-        font=dict(family='DM Sans, sans-serif', color='#8b949e'),
+        template='plotly_white',
         showlegend=True,
-        legend=dict(orientation='h', y=-0.08, bgcolor='rgba(0,0,0,0)', font=dict(color='#c9d1d9', size=11)),
-        height=360,
-        margin=dict(t=30, b=40, l=40, r=40),
-        title=dict(text=f'All Metrics — {case}', font=dict(size=13, color='#e6edf3'))
+        legend=dict(orientation='h', y=-0.1),
+        height=400,
+        title=dict(text=f'All Metrics Radar — {case}', font=dict(size=13))
     )
     return fig
 
 # ── Sidebar ───────────────────────────────────────────────────────────────
-st.sidebar.markdown("""
-<div style='padding: 0 0.5rem 1rem 0.5rem'>
-    <div style='font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:#58a6ff; margin-bottom:0.3rem; font-family: DM Mono, monospace'>EECE 5642</div>
-    <div style='font-size:1rem; font-weight:600; color:#e6edf3; line-height:1.3'>Data Visualization</div>
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown("### EECE 5642 — Data Visualization")
 st.sidebar.markdown("---")
-page = st.sidebar.radio("", [
+page = st.sidebar.radio("**Navigate**", [
     "Overview",
     "Feature Exploration",
     "Baseline Classification",
@@ -472,24 +260,18 @@ page = st.sidebar.radio("", [
     "Real World Impact"
 ])
 st.sidebar.markdown("---")
-st.sidebar.markdown("""
-<div style='font-size:0.75rem; color:#484f58; line-height:2; font-family: DM Mono, monospace; padding: 0 0.5rem'>
-Stephany Erhabor<br>
-Northeastern University<br>
-Spring 2026
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 1 — OVERVIEW
+# PAGE 1 — OVERVIEW  (restructured)
 # ════════════════════════════════════════════════════════════════════════════
 if page == "Overview":
-    st.markdown('<div class="section-label">Research Study</div>', unsafe_allow_html=True)
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
-    st.markdown('<p class="page-subtitle">Wisconsin Breast Cancer Dataset · Three-phase experimental study · Spring 2026</p>', unsafe_allow_html=True)
+    st.markdown("#### Wisconsin Breast Cancer Dataset")
     st.markdown("---")
 
+    # ── Dataset stats ──
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Samples",   "569")
     col2.metric("Features",        "30")
@@ -497,94 +279,101 @@ if page == "Overview":
     col4.metric("Malignant Cases", f"{class_counts['Malignant']} (37%)")
 
     st.markdown("---")
+
+    # ── Research question + donut side by side ──
     c1, c2 = st.columns([1.1, 0.9])
     with c1:
         st.subheader("Research Question")
         st.markdown("""
-        <div style='background:#161b22; border:1px solid #30363d; border-left:3px solid #58a6ff; border-radius:10px; padding:1.2rem 1.4rem; margin-bottom:1rem'>
-        <em style='color:#c9d1d9; font-size:1.05rem; line-height:1.7'>
-        "How does the balance of malignant vs. benign cases in training data affect classifier performance?"
-        </em>
+        <div class="rq-box">
+        How does the balance of malignant vs. benign cases in training data affect classifier performance?
         </div>
         """, unsafe_allow_html=True)
         st.markdown("""
-        <div style='color:#8b949e; font-size:0.9rem; line-height:1.8'>
-        Breast cancer has one of the highest survival rates when caught early, yet AI-assisted diagnostic tools
-        are only as reliable as the data they are trained on. In real clinical settings, approximately
-        <strong style='color:#c9d1d9'>80% of confirmed diagnoses are benign</strong> and only
-        <strong style='color:#f85149'>20% are malignant</strong> — yet most benchmark datasets do not reflect this.
-        <br><br>
-        This study isolates class distribution as the sole independent variable and measures its direct
-        effect on sensitivity, specificity, accuracy, and AUC-ROC across three classifiers.
-        </div>
-        """, unsafe_allow_html=True)
+        Breast cancer is one of the most diagnosed cancers in the world.
+        AI-assisted tools are continuously being used to enhance detection,
+        but these models are only as reliable as the data they are trained on.
 
+        In real clinical settings, approximately **80% of confirmed diagnoses are benign**
+        and only **20% are malignant**. This project investigates what happens when that ratio shifts.
+        """)
     with c2:
-        st.subheader("Study Design")
+        st.subheader("Dataset Distribution")
         fig = go.Figure(go.Pie(
-            labels=['Benign', 'Malignant'],
-            values=[357, 212],
-            hole=0.55,
+            labels=list(class_counts.keys()),
+            values=list(class_counts.values()),
+            hole=0.5,
             marker_colors=[C_BENIGN, C_MALIGNANT],
             textinfo='label+percent',
-            textfont=dict(size=12, color='#e6edf3'),
-            marker=dict(line=dict(color='#0d1117', width=3))
+            marker=dict(line=dict(color='white', width=2))
         ))
         fig.update_layout(
-            paper_bgcolor='#161b22', plot_bgcolor='#161b22',
-            font=dict(family='DM Sans, sans-serif', color='#8b949e'),
-            height=260, showlegend=False,
+            template='plotly_white', height=280,
+            showlegend=False,
             margin=dict(t=10, b=10, l=10, r=10),
-            annotations=[dict(text='569<br><span style="font-size:10px">samples</span>',
-                              x=0.5, y=0.5, showarrow=False,
-                              font=dict(size=18, color='#e6edf3'))]
+            annotations=[dict(
+                text='569<br><span style="font-size:11px">samples</span>',
+                x=0.5, y=0.5, showarrow=False,
+                font=dict(size=16, color='#333')
+            )]
         )
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
-    st.subheader("Three-Phase Methodology")
+
+    # ── Three phase cards ──
+    st.subheader("Project Structure")
     p1, p2, p3 = st.columns(3)
     p1.markdown("""
-    <div class='insight-card success'>
-        <strong>Phase 1 — Feature Exploration</strong>
-        Visualize distributions of 10 mean cell nucleus features. Assess class separability using histograms, KDE curves, and box plots.
+    <div class="phase-card green">
+        <h4>Phase 01 — Feature Exploration</h4>
+        <p>Are there observable structural differences between malignant and benign cells? Visualize distributions across 10 mean features.</p>
     </div>
     """, unsafe_allow_html=True)
     p2.markdown("""
-    <div class='insight-card'>
-        <strong>Phase 2 — Baseline Classification</strong>
-        Train Logistic Regression, SVM, and Random Forest on the original 37/63 distribution. Establish baseline metrics.
+    <div class="phase-card blue">
+        <h4>Phase 02 — Baseline Classification</h4>
+        <p>Logistic Regression, SVM, and Random Forest trained on the original 37/63 distribution. Establish baseline accuracy, sensitivity, specificity, and AUC-ROC.</p>
     </div>
     """, unsafe_allow_html=True)
     p3.markdown("""
-    <div class='insight-card warning'>
-        <strong>Phase 3 — Class Distribution</strong>
-        Retrain all classifiers on 20/80, 50/50, and 80/20 malignant-to-benign ratios. Measure sensitivity and specificity shifts.
+    <div class="phase-card orange">
+        <h4>Phase 03 — Class Distribution</h4>
+        <p>Retrain all classifiers on controlled 20/80, 50/50, and 80/20 malignant-to-benign ratios. Measure how performance shifts.</p>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.subheader("Implementation Notes")
-    n1, n2, n3 = st.columns(3)
-    n1.markdown("""<div class='insight-card'><strong>Train / Test Split</strong>
-    80/20 stratified split. Test set fixed across all experiments. random_state=5642 for reproducibility.</div>""", unsafe_allow_html=True)
-    n2.markdown("""<div class='insight-card'><strong>Resampling Strategy</strong>
-    Hybrid RandomOverSampler + RandomUnderSampler. 455 training samples across all cases. SMOTE excluded — alters data geometry.</div>""", unsafe_allow_html=True)
-    n3.markdown("""<div class='insight-card'><strong>Results</strong>
-    Pre-computed from Google Colab and hardcoded for reliable live presentation. All values verified against source code output.</div>""", unsafe_allow_html=True)
+
+    # ── Methodology notes (original) ──
+    st.subheader("Methodology Notes")
+    col1, col2, col3 = st.columns(3)
+    col1.info("**Train/Test Split**\n\n80/20 with stratified split to preserve class ratio. Test set is fixed across all experiments.")
+    col2.info("**Resampling**\n\nHybrid RandomOverSampler + RandomUnderSampler. Fixed training size of 455 samples across all cases. SMOTE excluded to avoid altering data geometry.")
+    col3.info("**Implementation**\n\nResults are pre-computed from Google Colab. This interactive visualization tool presents hardcoded outputs for reliable live presentation.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 2 — FEATURE EXPLORATION
+# PAGE 2 — FEATURE EXPLORATION  (original + legend added)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Feature Exploration":
-    st.markdown('<div class="section-label">Phase 1</div>', unsafe_allow_html=True)
     st.title("Feature Exploration")
-    st.markdown('<p class="page-subtitle">Distribution of 10 mean cell nucleus features across Benign and Malignant classes</p>', unsafe_allow_html=True)
+    st.markdown("Comparing the distribution of 10 cell nucleus mean features across Benign and Malignant classes.")
 
     chart_type = st.radio("Chart Type", ["Histogram", "KDE Curves", "Box Plot"], horizontal=True)
     st.markdown("---")
-    feature_legend()
+
+    # ── Legend ──
+    st.markdown("""
+    <div class="legend-row">
+        <span class="legend-item">
+            <span class="legend-dot" style="background:#2ecc71"></span> Benign (357)
+        </span>
+        <span class="legend-item">
+            <span class="legend-dot" style="background:#e74c3c"></span> Malignant (212)
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     features     = list(feature_data.keys())
     cols_per_row = 5
@@ -595,48 +384,40 @@ elif page == "Feature Exploration":
         for col, feat in zip(cols, row):
             b = feature_data[feat]['benign']
             m = feature_data[feat]['malignant']
-            title_text = feat.replace('_', ' ').replace(' mean', '')
-            base = dict(
-                paper_bgcolor='#161b22', plot_bgcolor='#0d1117',
-                font=dict(family='DM Sans, sans-serif', size=9, color='#8b949e'),
-                height=210,
-                margin=dict(t=36, b=16, l=10, r=10),
-                title=dict(text=f'<b>{title_text}</b>', font=dict(size=11, color='#e6edf3')),
-                xaxis=dict(gridcolor='#21262d', linecolor='#30363d', showticklabels=True),
-                yaxis=dict(gridcolor='#21262d', linecolor='#30363d'),
-            )
             if chart_type == "Histogram":
                 fig = go.Figure()
-                fig.add_trace(go.Histogram(x=b, name='Benign', marker_color=C_BENIGN, opacity=0.65, showlegend=False))
-                fig.add_trace(go.Histogram(x=m, name='Malignant', marker_color=C_MALIGNANT, opacity=0.65, showlegend=False))
-                fig.update_layout(barmode='overlay', **base)
+                fig.add_trace(go.Histogram(x=b, name='Benign', marker_color=C_BENIGN,
+                                           opacity=0.6, showlegend=False))
+                fig.add_trace(go.Histogram(x=m, name='Malignant', marker_color=C_MALIGNANT,
+                                           opacity=0.6, showlegend=False))
+                fig.update_layout(barmode='overlay', template='plotly_white',
+                                  height=220, margin=dict(t=30, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11))
             elif chart_type == "KDE Curves":
                 fig = go.Figure()
                 fig.add_trace(kde_trace(b, C_BENIGN, 'Benign', False))
                 fig.add_trace(kde_trace(m, C_MALIGNANT, 'Malignant', False))
-                fig.update_layout(**base)
+                fig.update_layout(template='plotly_white', height=220,
+                                  margin=dict(t=30, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11))
             else:
                 fig = go.Figure()
-                fig.add_trace(go.Box(y=b, name='B', marker_color=C_BENIGN, showlegend=False, line=dict(color=C_BENIGN), boxmean=True))
-                fig.add_trace(go.Box(y=m, name='M', marker_color=C_MALIGNANT, showlegend=False, line=dict(color=C_MALIGNANT), boxmean=True))
-                fig.update_layout(**base)
+                fig.add_trace(go.Box(y=b, name='Benign', marker_color=C_BENIGN, showlegend=False))
+                fig.add_trace(go.Box(y=m, name='Malignant', marker_color=C_MALIGNANT, showlegend=False))
+                fig.update_layout(template='plotly_white', height=220,
+                                  margin=dict(t=30, b=20, l=10, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=11))
             col.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("---")
-    insight(
-        "Features such as <strong style='color:#f85149'>area mean</strong>, <strong style='color:#f85149'>perimeter mean</strong>, <strong style='color:#f85149'>radius mean</strong>, and <strong style='color:#f85149'>concavity mean</strong> show strong class separation with minimal overlap. This clean separability across multiple features suggests the data is largely linearly separable, which directly informs why Logistic Regression performs competitively in Phase 2.",
-        "Key Insight — Linear Separability",
-        kind='success'
-    )
+    st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, which supports the use of linear classifiers in Phase 2.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 3 — BASELINE CLASSIFICATION
+# PAGE 3 — BASELINE CLASSIFICATION  (original, new classifier colors apply)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Baseline Classification":
-    st.markdown('<div class="section-label">Phase 2</div>', unsafe_allow_html=True)
     st.title("Baseline Classification")
-    st.markdown('<p class="page-subtitle">All three classifiers trained on the original 37% malignant / 63% benign distribution · Fixed 20% test set</p>', unsafe_allow_html=True)
+    st.markdown("All three classifiers trained on the original Wisconsin dataset (37% malignant / 63% benign), evaluated on a fixed 20% test set.")
     st.markdown("---")
 
     col1, col2, col3 = st.columns(3)
@@ -645,7 +426,7 @@ elif page == "Baseline Classification":
         sen  = sensitivity['Baseline (37/63)'][clf]
         spe  = specificity['Baseline (37/63)'][clf]
         auc_ = auc['Baseline (37/63)'][clf]
-        col.markdown(f"<div style='font-size:0.8rem; font-weight:600; color:#58a6ff; font-family:DM Mono,monospace; margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.06em'>{clf}</div>", unsafe_allow_html=True)
+        col.markdown(f"### {clf}")
         col.metric("Accuracy",    f"{acc:.1%}")
         col.metric("Sensitivity", f"{sen:.1%}")
         col.metric("Specificity", f"{spe:.1%}")
@@ -662,31 +443,34 @@ elif page == "Baseline Classification":
     }
     fig = go.Figure()
     for metric in metrics_list:
-        fig.add_trace(go.Bar(name=metric, x=CLFS, y=metric_vals[metric]))
-    apply_theme(fig, height=380, barmode='group',
-                xaxis_title='Classifier', yaxis_title='Score',
-                yaxis_range=[0.85, 1.01], legend=True)
+        fig.add_trace(go.Bar(
+            name=metric,
+            x=CLFS,
+            y=metric_vals[metric],
+        ))
+    fig.update_layout(
+        barmode='group', template='plotly_white', height=400,
+        yaxis=dict(range=[0.85, 1.01]),
+        xaxis_title='Classifier', yaxis_title='Score',
+        legend=dict(orientation='h', y=1.1)
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
-    st.subheader("Confusion Matrices")
+    st.subheader("Confusion Matrices — Baseline")
     st.plotly_chart(confusion_matrix_fig('Baseline (37/63)'), use_container_width=True)
 
     st.markdown("---")
-    insight(
-        "Logistic Regression achieves 98.2% accuracy and perfect sensitivity (100%), outperforming the more complex SVM and Random Forest. Contrary to expectations, the simpler model leads — this is consistent with the strong linear separability observed in Phase 1. LR's score sits at the upper bound of its typically reported range (94–97%) for this dataset, while Random Forest lands at the lower end of its range (95–98%), as expected on small, clean datasets.",
-        "Key Insight — Why Logistic Regression Wins",
-        kind='info'
-    )
+    st.subheader("Key Finding")
+    st.info("Logistic Regression outperforms the more complex models, SVM and Random Forest, on this dataset. This indicates that the decision boundary between the classes is largely linear, as observed in Phase 1.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 4 — CLASS DISTRIBUTION
+# PAGE 4 — CLASS DISTRIBUTION  (original + radar chart added)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Class Distribution":
-    st.markdown('<div class="section-label">Phase 3</div>', unsafe_allow_html=True)
     st.title("Class Distribution Experiment")
-    st.markdown('<p class="page-subtitle">Three controlled training sets at different malignant-to-benign ratios · Same fixed test set throughout</p>', unsafe_allow_html=True)
+    st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set. Cases are ordered from benign-heavy to malignant-heavy.")
 
     st.markdown("---")
     st.subheader("Training Set Composition")
@@ -697,14 +481,13 @@ elif page == "Class Distribution":
             y=[training_sizes[c][cls] for c in training_sizes],
             name=cls, marker_color=color
         ))
-    apply_theme(fig, height=280, barmode='stack',
-                xaxis_title='Case', yaxis_title='Training Samples', legend=True)
+    fig.update_layout(barmode='stack', template='plotly_white',
+                      height=300, xaxis_title='Case', yaxis_title='Samples',
+                      legend=dict(orientation='h', y=1.1))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
-    left, right = st.columns([1, 1])
-    with left:
-        metric_choice = st.selectbox("Select Metric for Line Chart", ["Accuracy", "Sensitivity", "Specificity", "AUC-ROC"])
+    metric_choice = st.selectbox("Select Metric", ["Accuracy", "Sensitivity", "Specificity", "AUC-ROC"])
     metric_map = {
         "Accuracy":    (accuracy,    "Accuracy",    [0.85, 1.01]),
         "Sensitivity": (sensitivity, "Sensitivity", [0.80, 1.01]),
@@ -726,7 +509,7 @@ elif page == "Class Distribution":
     st.plotly_chart(confusion_matrix_fig(case_choice), use_container_width=True)
 
     st.markdown("---")
-    st.subheader("Full Results Summary")
+    st.subheader("All Metrics Summary")
     rows_data = []
     for case in CASES:
         for clf in CLFS:
@@ -741,27 +524,16 @@ elif page == "Class Distribution":
 
     st.markdown("---")
     col1, col2 = st.columns(2)
-    with col1:
-        insight(
-            "As the training set shifts toward malignant-heavy (Case 3), all classifiers achieve perfect sensitivity (1.000) but specificity drops sharply — as low as 84.7% for SVM. Classifiers become overly aggressive, predicting malignant even when it isn't. This tradeoff is the core tension in imbalanced medical classification.",
-            "Sensitivity vs. Specificity Tradeoff",
-            kind='warning'
-        )
-    with col2:
-        insight(
-            "Case 1 (20/80) most closely mirrors real clinical screening populations, where malignant cases represent approximately 20% of biopsies. This is precisely the scenario that produces the worst sensitivity — Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed by the model.",
-            "Case 1 is the Most Clinically Concerning",
-            kind='danger'
-        )
+    col1.warning("**Sensitivity vs. Specificity Tradeoff**\n\nAs malignant cases increase in training (Case 3), sensitivity reaches 1.000 for all classifiers but specificity drops significantly. Classifiers become overly aggressive in predicting malignant.")
+    col2.error("**Case 1 is the most concerning**\n\nCase 1 (20/80) is closest to real clinical distribution yet produces the worst sensitivity across all classifiers. Random Forest drops to 85.7%, meaning 1 in 7 cancer cases would be missed.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 5 — REAL WORLD IMPACT
+# PAGE 5 — REAL WORLD IMPACT  (original, new classifier colors apply)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Real World Impact":
-    st.markdown('<div class="section-label">Clinical Translation</div>', unsafe_allow_html=True)
     st.title("Real World Impact")
-    st.markdown('<p class="page-subtitle">Translating sensitivity drops into estimated missed diagnoses at national and global scale</p>', unsafe_allow_html=True)
+    st.markdown("Translating classifier sensitivity drops into missed diagnoses.")
     st.markdown("---")
 
     st.subheader("Impact Calculator")
@@ -775,15 +547,16 @@ elif page == "Real World Impact":
         drop          = baseline_sen - case_sen
         us_missed     = int(drop * us_cases)
         global_missed = int(drop * global_cases)
-        st.metric("Baseline Sensitivity",      f"{baseline_sen:.1%}")
-        st.metric("Selected Case Sensitivity", f"{case_sen:.1%}",
+
+        st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
+        st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
                   delta=f"{(case_sen - baseline_sen):+.1%}")
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
-    col1.metric("Sensitivity Change",        f"{-drop:+.1%}")
-    col2.metric("Missed Diagnoses (US)",     f"{us_missed:,}")
-    col3.metric("Missed Diagnoses (Global)", f"{global_missed:,}")
+    col1.metric("Sensitivity Change",         f"{-drop:+.1%}")
+    col2.metric("Missed Diagnoses (US)",      f"{us_missed:,}")
+    col3.metric("Missed Diagnoses (Global)",  f"{global_missed:,}")
 
     st.markdown("---")
     st.subheader("Sensitivity Across All Cases")
@@ -793,22 +566,31 @@ elif page == "Real World Impact":
             x=CASES, y=[sensitivity[c][clf] for c in CASES],
             name=clf, marker_color=CLF_COLORS[clf], opacity=0.85
         ))
-    apply_theme(fig, height=360, barmode='group',
-                xaxis_title='Class Distribution', yaxis_title='Sensitivity',
-                yaxis_range=[0.8, 1.01], legend=True)
+    fig.update_layout(barmode='group', template='plotly_white',
+                      height=380, yaxis=dict(range=[0.8, 1.01]),
+                      xaxis_title='Class Distribution',
+                      yaxis_title='Sensitivity',
+                      legend=dict(orientation='h', y=1.1))
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
     st.subheader("Global Scale Context")
-    g1, g2, g3, g4 = st.columns(4)
-    g1.metric("Global Cases (2022)", "2.3M", help="GLOBOCAN 2022, IARC")
-    g2.metric("US Cases (2026 est.)", "382,640", help="American Cancer Society")
-    g3.metric("Per 1% Sensitivity Drop", "~23,000 global", help="Estimated missed diagnoses")
-    g4.metric("Projected by 2040", ">3M/year", help="Global incidence projection")
+    st.markdown("""
+    - 2.3 million women were diagnosed with breast cancer globally in 2022
+    - In 2026, an estimated 382,640 women in the US will be diagnosed with breast cancer
+    - By 2040, global incidence projected to exceed 3 million per year
+    - A 1% sensitivity drop equals approximately 23,000 missed diagnoses globally per year
+    """)
 
     st.markdown("---")
-    insight(
-        "Case 1 (20% malignant / 80% benign) most closely reflects real clinical screening data. This is the scenario that produces the lowest sensitivity across all three classifiers — and it is the scenario that any AI tool deployed in a real hospital setting would most likely face. Random Forest's 7.2% sensitivity drop in Case 1 relative to baseline translates to approximately 165,600 missed global diagnoses and 27,550 missed US diagnoses per year.",
-        "Why Case 1 is the Most Important Finding",
-        kind='danger'
-    )
+    st.subheader("Why Case 1 Matters Most")
+    st.error("""
+    Case 1 (20% malignant / 80% benign) is the closest to real clinical data.
+
+    In real screening populations, the malignant rate among confirmed biopsies is approximately 20%.
+    This means classifiers deployed in clinical settings are most likely to operate under Case 1 conditions,
+    which is precisely the scenario that produces the worst sensitivity in this experiment.
+
+    This finding reinforces the need to study and address class distribution effects
+    before deploying AI tools in the field of healthcare.
+    """)
