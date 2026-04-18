@@ -220,7 +220,7 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
     
         title=dict(text=title, font=dict(size=15)),
         template='plotly_white',
-        xaxis_title='Class Distribution (Benign-heavy → Malignant-heavy)',
+        xaxis_title='Class Distribution (Benign-heavy to Malignant-heavy)',
         yaxis_title=y_label,
         yaxis=dict(range=y_range),
         height=420,
