@@ -314,24 +314,35 @@ C_RF        = '#ffa657'
 CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
 # ── Chart base layout ─────────────────────────────────────────────────────
-CHART_BASE = dict(
-    template='plotly_dark',
-    paper_bgcolor='#161b22',
-    plot_bgcolor='#0d1117',
-    font=dict(family='DM Sans, sans-serif', color='#8b949e', size=12),
-    xaxis=dict(gridcolor='#21262d', linecolor='#30363d', tickfont=dict(color='#8b949e')),
-    yaxis=dict(gridcolor='#21262d', linecolor='#30363d', tickfont=dict(color='#8b949e')),
-)
-
-def styled_chart(fig, height=400, legend=True):
-    updates = dict(**CHART_BASE, height=height)
+def apply_theme(fig, height=400, title_text=None, xaxis_title=None, yaxis_title=None,
+                yaxis_range=None, legend=True, barmode=None, xaxis_gridcolor=True):
+    kw = dict(
+        template='plotly_dark',
+        paper_bgcolor='#161b22',
+        plot_bgcolor='#0d1117',
+        font=dict(family='DM Sans, sans-serif', color='#8b949e', size=12),
+        height=height,
+    )
+    if title_text:
+        kw['title'] = dict(text=title_text, font=dict(size=14, color='#e6edf3'))
+    if xaxis_title:
+        kw['xaxis_title'] = xaxis_title
+    if yaxis_title:
+        kw['yaxis_title'] = yaxis_title
+    if barmode:
+        kw['barmode'] = barmode
     if legend:
-        updates['legend'] = dict(
-            orientation='h', y=1.12,
-            bgcolor='rgba(0,0,0,0)',
-            font=dict(color='#c9d1d9', size=11)
-        )
-    fig.update_layout(**updates)
+        kw['legend'] = dict(orientation='h', y=1.12, bgcolor='rgba(0,0,0,0)',
+                             font=dict(color='#c9d1d9', size=11))
+    else:
+        kw['showlegend'] = False
+    fig.update_layout(**kw)
+    fig.update_xaxes(gridcolor='#21262d', linecolor='#30363d',
+                     tickfont=dict(color='#8b949e'))
+    yax = dict(gridcolor='#21262d', linecolor='#30363d', tickfont=dict(color='#8b949e'))
+    if yaxis_range:
+        yax['range'] = yaxis_range
+    fig.update_yaxes(**yax)
     return fig
 
 # ── Helper: insight card ──────────────────────────────────────────────────
@@ -364,15 +375,9 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
             line=dict(color=CLF_COLORS[clf], width=2.5),
             marker=dict(size=9, line=dict(width=2, color='#0d1117'))
         ))
-    fig.update_layout(
-        **CHART_BASE,
-        title=dict(text=title, font=dict(size=14, color='#e6edf3')),
-        xaxis_title='Class Distribution',
-        yaxis_title=y_label,
-        yaxis=dict(range=y_range, gridcolor='#21262d'),
-        height=380,
-        legend=dict(orientation='h', y=1.14, bgcolor='rgba(0,0,0,0)', font=dict(color='#c9d1d9'))
-    )
+    apply_theme(fig, height=380, title_text=title,
+                xaxis_title='Class Distribution', yaxis_title=y_label,
+                yaxis_range=y_range, legend=True)
     return fig
 
 # ── Helper: confusion matrix ──────────────────────────────────────────────
@@ -391,11 +396,7 @@ def confusion_matrix_fig(case):
             textfont=dict(size=18, color='white'),
             showscale=False, hoverinfo='none'
         ), row=1, col=i+1)
-    fig.update_layout(
-        **CHART_BASE,
-        height=320,
-        title=dict(text=f'Confusion Matrices — {case}', font=dict(size=13, color='#e6edf3'))
-    )
+    apply_theme(fig, height=320, title_text=f'Confusion Matrices — {case}', legend=False)
     for ann in fig.layout.annotations:
         ann.font.color = '#c9d1d9'
         ann.font.size  = 12
@@ -662,13 +663,9 @@ elif page == "Baseline Classification":
     fig = go.Figure()
     for metric in metrics_list:
         fig.add_trace(go.Bar(name=metric, x=CLFS, y=metric_vals[metric]))
-    fig.update_layout(
-        **CHART_BASE,
-        barmode='group', height=380,
-        yaxis=dict(range=[0.85, 1.01], gridcolor='#21262d'),
-        xaxis_title='Classifier', yaxis_title='Score',
-        legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)', font=dict(color='#c9d1d9'))
-    )
+    apply_theme(fig, height=380, barmode='group',
+                xaxis_title='Classifier', yaxis_title='Score',
+                yaxis_range=[0.85, 1.01], legend=True)
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -700,13 +697,8 @@ elif page == "Class Distribution":
             y=[training_sizes[c][cls] for c in training_sizes],
             name=cls, marker_color=color
         ))
-    fig.update_layout(
-        **CHART_BASE,
-        barmode='stack', height=280,
-        xaxis_title='Case', yaxis_title='Training Samples',
-        yaxis=dict(gridcolor='#21262d'),
-        legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)', font=dict(color='#c9d1d9'))
-    )
+    apply_theme(fig, height=280, barmode='stack',
+                xaxis_title='Case', yaxis_title='Training Samples', legend=True)
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -801,13 +793,9 @@ elif page == "Real World Impact":
             x=CASES, y=[sensitivity[c][clf] for c in CASES],
             name=clf, marker_color=CLF_COLORS[clf], opacity=0.85
         ))
-    fig.update_layout(
-        **CHART_BASE,
-        barmode='group', height=360,
-        yaxis=dict(range=[0.8, 1.01], gridcolor='#21262d'),
-        xaxis_title='Class Distribution', yaxis_title='Sensitivity',
-        legend=dict(orientation='h', y=1.1, bgcolor='rgba(0,0,0,0)', font=dict(color='#c9d1d9'))
-    )
+    apply_theme(fig, height=360, barmode='group',
+                xaxis_title='Class Distribution', yaxis_title='Sensitivity',
+                yaxis_range=[0.8, 1.01], legend=True)
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
