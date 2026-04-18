@@ -218,14 +218,14 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
         ))
     fig.update_layout(
     
-        title=dict(text=title, font=dict(size=15), x=0.5, xanchor='center'),
+        title=dict(text=title, font=dict(size=15)),
         template='plotly_white',
         xaxis_title='Class Distribution (Benign-heavy → Malignant-heavy)',
         yaxis_title=y_label,
         yaxis=dict(range=y_range),
         height=420,
-        margin=dict(t=80, b=60, l=60, r=30),
-        legend=dict(orientation='h', y=1.25, font=dict(size=12))
+        margin=dict(t=100, b=60, l=60, r=30),
+        legend=dict(orientation='h', y=1.45, font=dict(size=12))
     )
     return fig
 
