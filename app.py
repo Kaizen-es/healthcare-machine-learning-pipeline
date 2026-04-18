@@ -223,8 +223,8 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
         yaxis_title=y_label,
         yaxis=dict(range=y_range),
         height=420,
-        margin=dict(t=60, b=60, l=60, r=30),
-        legend=dict(orientation='h', y=1.15, font=dict(size=12))
+        margin=dict(t=80, b=60, l=60, r=30),
+        legend=dict(orientation='h', y=1.25, font=dict(size=12))
     )
     return fig
 
@@ -371,7 +371,7 @@ if page == "Overview":
             annotations=[dict(
                 text='569<br><span style="font-size:11px">samples</span>',
                 x=0.5, y=0.5, showarrow=False,
-                font=dict(size=16, color='#333')
+                font=dict(size=16)
             )]
         )
         st.plotly_chart(fig, use_container_width=True)
