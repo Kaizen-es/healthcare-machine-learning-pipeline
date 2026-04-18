@@ -12,10 +12,10 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── Minimal accent CSS — no font imports, just light color touches ────────
+# ── CSS — dark/light mode compatible ─────────────────────────────────────
 st.markdown("""
 <style>
-/* Subtle top accent bar */
+/* Top accent bar */
 [data-testid="stAppViewContainer"] > .main::before {
     content: '';
     display: block;
@@ -28,6 +28,7 @@ st.markdown("""
 h1 {
     border-left: 5px solid #e74c3c;
     padding-left: 0.6rem !important;
+    font-size: 1.7rem !important;
 }
 
 /* Sidebar accent */
@@ -35,40 +36,63 @@ h1 {
     border-right: 3px solid #2ecc71;
 }
 
-/* Overview phase cards */
+/* Sidebar nav label — larger, visible in both modes */
+[data-testid="stSidebar"] .stRadio label {
+    font-size: 1.05rem !important;
+}
+
+/* Phase cards — explicit colors so they work in both modes */
 .phase-card {
     border-radius: 8px;
     padding: 1rem 1.2rem;
     margin-bottom: 0.5rem;
     border-left: 4px solid;
 }
-.phase-card.green  { border-color: #2ecc71; background: #f0fdf4; }
-.phase-card.blue   { border-color: #3498db; background: #eff8ff; }
-.phase-card.orange { border-color: #e67e22; background: #fff7ed; }
-.phase-card h4 { margin: 0 0 0.3rem 0; font-size: 0.9rem; }
-.phase-card p  { margin: 0; font-size: 0.85rem; color: #444; }
+.phase-card.green  {
+    border-color: #2ecc71;
+    background: rgba(46, 204, 113, 0.12);
+}
+.phase-card.blue   {
+    border-color: #3498db;
+    background: rgba(52, 152, 219, 0.12);
+}
+.phase-card.orange {
+    border-color: #e67e22;
+    background: rgba(230, 126, 34, 0.12);
+}
+.phase-card h4 {
+    margin: 0 0 0.3rem 0;
+    font-size: 0.92rem;
+    color: inherit;
+}
+.phase-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: inherit;
+    opacity: 0.85;
+}
 
-/* Research question highlight */
+/* Research question box — works in both modes */
 .rq-box {
-    background: #fafafa;
-    border: 1px solid #e0e0e0;
+    border: 1px solid rgba(128,128,128,0.3);
     border-left: 4px solid #e74c3c;
     border-radius: 6px;
     padding: 0.9rem 1.1rem;
     font-style: italic;
-    color: #333;
-    margin-bottom: 1rem;
     font-size: 1.0rem;
+    margin-bottom: 1rem;
+    background: rgba(231, 76, 60, 0.06);
+    color: inherit;
 }
 
-/* Legend row for feature exploration */
+/* Legend row — works in both modes */
 .legend-row {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     padding: 0.5rem 1rem;
-    background: #f8f8f8;
-    border: 1px solid #e0e0e0;
+    background: rgba(128,128,128,0.1);
+    border: 1px solid rgba(128,128,128,0.2);
     border-radius: 6px;
     margin-bottom: 0.8rem;
     width: fit-content;
@@ -77,15 +101,24 @@ h1 {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: #333;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: inherit;
 }
 .legend-dot {
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     display: inline-block;
+    flex-shrink: 0;
+}
+
+/* Metric cards — vibrant colored borders */
+div[data-testid="metric-container"] {
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid rgba(128,128,128,0.2);
+    background: rgba(128,128,128,0.05);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -165,14 +198,13 @@ us_cases     = 382640
 global_cases = 2300000
 
 # ── Color Constants ───────────────────────────────────────────────────────
-# Benign / Malignant: original green and red kept
 C_BENIGN    = '#2ecc71'
 C_MALIGNANT = '#e74c3c'
-# Classifiers: new distinct palette — teal, amber, indigo
-C_LR        = '#00b4a0'   # teal
-C_SVM       = '#f0a500'   # amber
-C_RF        = '#6c5ce7'   # indigo
-CLF_COLORS  = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
+# Vibrant classifier palette
+C_LR  = '#00d4ff'   # cyan
+C_SVM = '#ff6b35'   # vivid orange
+C_RF  = '#c44dff'   # vivid purple
+CLF_COLORS = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
 
 # ── Helpers ───────────────────────────────────────────────────────────────
 def metric_line_chart(metric_dict, title, y_label, y_range):
@@ -181,20 +213,24 @@ def metric_line_chart(metric_dict, title, y_label, y_range):
         fig.add_trace(go.Scatter(
             x=CASES, y=[metric_dict[c][clf] for c in CASES],
             mode='lines+markers', name=clf,
-            line=dict(color=CLF_COLORS[clf], width=2.5),
-            marker=dict(size=8)
+            line=dict(color=CLF_COLORS[clf], width=3),
+            marker=dict(size=10, line=dict(width=2, color='white'))
         ))
     fig.update_layout(
-        title=title, template='plotly_white',
-        xaxis_title='Class Distribution (Benign-heavy to Malignant-heavy)',
+        title=dict(text=title, font=dict(size=15)),
+        template='plotly_white',
+        xaxis_title='Class Distribution (Benign-heavy → Malignant-heavy)',
         yaxis_title=y_label,
-        yaxis=dict(range=y_range), height=380,
-        legend=dict(orientation='h', y=1.12)
+        yaxis=dict(range=y_range),
+        height=420,
+        margin=dict(t=60, b=60, l=60, r=30),
+        legend=dict(orientation='h', y=1.15, font=dict(size=12))
     )
     return fig
 
 def confusion_matrix_fig(case):
-    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS)
+    fig = make_subplots(rows=1, cols=3, subplot_titles=CLFS,
+                        horizontal_spacing=0.08)
     cm_colors = [[1, 0], [0, 1]]
     for i, clf in enumerate(CLFS):
         d  = cm_data[case][clf]
@@ -202,10 +238,15 @@ def confusion_matrix_fig(case):
         fig.add_trace(go.Heatmap(
             z=cm_colors, x=['Benign', 'Malignant'], y=['Benign', 'Malignant'],
             colorscale=[[0, C_MALIGNANT], [1, C_BENIGN]],
-            text=cm, texttemplate='%{text}', showscale=False, hoverinfo='none'
+            text=cm, texttemplate='<b>%{text}</b>',
+            textfont=dict(size=20),
+            showscale=False, hoverinfo='none'
         ), row=1, col=i+1)
-    fig.update_layout(template='plotly_white', height=320,
-                      title=f'Confusion Matrices — {case}')
+    fig.update_layout(
+        template='plotly_white', height=340,
+        title=dict(text=f'Confusion Matrices — {case}', font=dict(size=14)),
+        margin=dict(t=60, b=20, l=20, r=20)
+    )
     return fig
 
 def kde_trace(data, color, name, show_legend=True):
@@ -214,9 +255,10 @@ def kde_trace(data, color, name, show_legend=True):
     y   = gaussian_kde(arr)(x)
     return go.Scatter(x=x, y=y, mode='lines', name=name,
                       fill='tozeroy', opacity=0.5,
-                      line=dict(color=color, width=2), showlegend=show_legend)
+                      line=dict(color=color, width=2.5), showlegend=show_legend)
 
 def radar_chart(case):
+    # Use separate axes per metric so scale differences don't distort shape
     categories = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
     fig = go.Figure()
     for clf in CLFS:
@@ -226,33 +268,50 @@ def radar_chart(case):
             specificity[case][clf],
             auc[case][clf],
         ]
-        vals  += [vals[0]]
-        cats   = categories + [categories[0]]
+        # Close the polygon
+        vals_closed = vals + [vals[0]]
+        cats_closed = categories + [categories[0]]
+        # Convert to percentage for display
+        pct = [v * 100 for v in vals_closed]
         fig.add_trace(go.Scatterpolar(
-            r=vals, theta=cats, fill='toself', name=clf,
-            line=dict(color=CLF_COLORS[clf], width=2),
-            fillcolor=CLF_COLORS[clf], opacity=0.15
+            r=pct,
+            theta=cats_closed,
+            fill='toself',
+            name=clf,
+            line=dict(color=CLF_COLORS[clf], width=3),
+            fillcolor=CLF_COLORS[clf],
+            opacity=0.25,
+            marker=dict(size=8, color=CLF_COLORS[clf])
         ))
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
-                visible=True, range=[0.8, 1.0],
-                tickvals=[0.85, 0.90, 0.95, 1.0],
-                ticktext=['85%', '90%', '95%', '100%'],
-            )
+                visible=True,
+                range=[80, 101],
+                tickvals=[82, 86, 90, 94, 98, 101],
+                ticktext=['82%', '86%', '90%', '94%', '98%', '100%'],
+                tickfont=dict(size=11),
+                gridcolor='rgba(128,128,128,0.3)',
+            ),
+            angularaxis=dict(
+                tickfont=dict(size=13),
+                gridcolor='rgba(128,128,128,0.25)',
+            ),
+            bgcolor='rgba(0,0,0,0)',
         ),
         template='plotly_white',
         showlegend=True,
-        legend=dict(orientation='h', y=-0.1),
-        height=400,
-        title=dict(text=f'All Metrics Radar — {case}', font=dict(size=13))
+        legend=dict(orientation='h', y=-0.12, font=dict(size=13)),
+        height=500,
+        margin=dict(t=60, b=80, l=80, r=80),
+        title=dict(text=f'All Metrics Radar — {case}', font=dict(size=14))
     )
     return fig
 
 # ── Sidebar ───────────────────────────────────────────────────────────────
 st.sidebar.markdown("### EECE 5642 — Data Visualization")
 st.sidebar.markdown("---")
-page = st.sidebar.radio("**Navigate**", [
+page = st.sidebar.radio("", [
     "Overview",
     "Feature Exploration",
     "Baseline Classification",
@@ -264,14 +323,13 @@ st.sidebar.markdown("Stephany Erhabor · Spring 2026")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 1 — OVERVIEW  (restructured)
+# PAGE 1 — OVERVIEW
 # ════════════════════════════════════════════════════════════════════════════
 if page == "Overview":
     st.title("The Effect of Class Distribution on Breast Cancer Classification")
     st.markdown("#### Wisconsin Breast Cancer Dataset")
     st.markdown("---")
 
-    # ── Dataset stats ──
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Samples",   "569")
     col2.metric("Features",        "30")
@@ -280,7 +338,6 @@ if page == "Overview":
 
     st.markdown("---")
 
-    # ── Research question + donut side by side ──
     c1, c2 = st.columns([1.1, 0.9])
     with c1:
         st.subheader("Research Question")
@@ -320,8 +377,6 @@ if page == "Overview":
         st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
-
-    # ── Three phase cards ──
     st.subheader("Project Structure")
     p1, p2, p3 = st.columns(3)
     p1.markdown("""
@@ -344,8 +399,6 @@ if page == "Overview":
     """, unsafe_allow_html=True)
 
     st.markdown("---")
-
-    # ── Methodology notes (original) ──
     st.subheader("Methodology Notes")
     col1, col2, col3 = st.columns(3)
     col1.info("**Train/Test Split**\n\n80/20 with stratified split to preserve class ratio. Test set is fixed across all experiments.")
@@ -354,7 +407,7 @@ if page == "Overview":
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 2 — FEATURE EXPLORATION  (original + legend added)
+# PAGE 2 — FEATURE EXPLORATION
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Feature Exploration":
     st.title("Feature Exploration")
@@ -363,7 +416,6 @@ elif page == "Feature Exploration":
     chart_type = st.radio("Chart Type", ["Histogram", "KDE Curves", "Box Plot"], horizontal=True)
     st.markdown("---")
 
-    # ── Legend ──
     st.markdown("""
     <div class="legend-row">
         <span class="legend-item">
@@ -387,33 +439,34 @@ elif page == "Feature Exploration":
             if chart_type == "Histogram":
                 fig = go.Figure()
                 fig.add_trace(go.Histogram(x=b, name='Benign', marker_color=C_BENIGN,
-                                           opacity=0.6, showlegend=False))
+                                           opacity=0.65, showlegend=False))
                 fig.add_trace(go.Histogram(x=m, name='Malignant', marker_color=C_MALIGNANT,
-                                           opacity=0.6, showlegend=False))
+                                           opacity=0.65, showlegend=False))
                 fig.update_layout(barmode='overlay', template='plotly_white',
-                                  height=220, margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                                  height=240,
+                                  margin=dict(t=36, b=30, l=30, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=12))
             elif chart_type == "KDE Curves":
                 fig = go.Figure()
                 fig.add_trace(kde_trace(b, C_BENIGN, 'Benign', False))
                 fig.add_trace(kde_trace(m, C_MALIGNANT, 'Malignant', False))
-                fig.update_layout(template='plotly_white', height=220,
-                                  margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                fig.update_layout(template='plotly_white', height=240,
+                                  margin=dict(t=36, b=30, l=30, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=12))
             else:
                 fig = go.Figure()
                 fig.add_trace(go.Box(y=b, name='Benign', marker_color=C_BENIGN, showlegend=False))
                 fig.add_trace(go.Box(y=m, name='Malignant', marker_color=C_MALIGNANT, showlegend=False))
-                fig.update_layout(template='plotly_white', height=220,
-                                  margin=dict(t=30, b=20, l=10, r=10),
-                                  title=dict(text=feat.replace('_', ' '), font_size=11))
+                fig.update_layout(template='plotly_white', height=240,
+                                  margin=dict(t=36, b=30, l=30, r=10),
+                                  title=dict(text=feat.replace('_', ' '), font_size=12))
             col.plotly_chart(fig, use_container_width=True)
 
     st.success("Features such as area mean, perimeter mean, radius mean, concavity mean, and concave points mean show the strongest class separation, which supports the use of linear classifiers in Phase 2.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 3 — BASELINE CLASSIFICATION  (original, new classifier colors apply)
+# PAGE 3 — BASELINE CLASSIFICATION
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Baseline Classification":
     st.title("Baseline Classification")
@@ -421,6 +474,7 @@ elif page == "Baseline Classification":
     st.markdown("---")
 
     col1, col2, col3 = st.columns(3)
+    clf_border_colors = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
     for col, clf in zip([col1, col2, col3], CLFS):
         acc  = accuracy['Baseline (37/63)'][clf]
         sen  = sensitivity['Baseline (37/63)'][clf]
@@ -434,25 +488,34 @@ elif page == "Baseline Classification":
 
     st.markdown("---")
     st.subheader("Classifier Performance Comparison")
-    metrics_list = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
-    metric_vals  = {
+
+    # Grouped bar chart with vibrant colors per classifier, one group per metric
+    fig = go.Figure()
+    metric_labels = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
+    metric_data   = {
         'Accuracy':    [accuracy['Baseline (37/63)'][c] for c in CLFS],
         'Sensitivity': [sensitivity['Baseline (37/63)'][c] for c in CLFS],
         'Specificity': [specificity['Baseline (37/63)'][c] for c in CLFS],
         'AUC-ROC':     [auc['Baseline (37/63)'][c] for c in CLFS],
     }
-    fig = go.Figure()
-    for metric in metrics_list:
+    # One bar series per classifier so classifier colors are used
+    for clf in CLFS:
         fig.add_trace(go.Bar(
-            name=metric,
-            x=CLFS,
-            y=metric_vals[metric],
+            name=clf,
+            x=metric_labels,
+            y=[metric_data[m][CLFS.index(clf)] for m in metric_labels],
+            marker_color=CLF_COLORS[clf],
+            marker_line=dict(width=1.5, color='white'),
         ))
     fig.update_layout(
-        barmode='group', template='plotly_white', height=400,
-        yaxis=dict(range=[0.85, 1.01]),
-        xaxis_title='Classifier', yaxis_title='Score',
-        legend=dict(orientation='h', y=1.1)
+        barmode='group',
+        template='plotly_white',
+        height=430,
+        yaxis=dict(range=[0.85, 1.01], tickformat='.0%'),
+        xaxis_title='Metric',
+        yaxis_title='Score',
+        margin=dict(t=30, b=40, l=60, r=20),
+        legend=dict(orientation='h', y=1.08, font=dict(size=12))
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -466,11 +529,11 @@ elif page == "Baseline Classification":
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 4 — CLASS DISTRIBUTION  (original + radar chart added)
+# PAGE 4 — CLASS DISTRIBUTION  (title fixed, radar fixed)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Class Distribution":
-    st.title("Class Distribution Experiment")
-    st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set. Cases are ordered from benign-heavy to malignant-heavy.")
+    st.title("Class Distribution")
+    st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set.")
 
     st.markdown("---")
     st.subheader("Training Set Composition")
@@ -479,11 +542,16 @@ elif page == "Class Distribution":
         fig.add_trace(go.Bar(
             x=list(training_sizes.keys()),
             y=[training_sizes[c][cls] for c in training_sizes],
-            name=cls, marker_color=color
+            name=cls, marker_color=color,
+            marker_line=dict(width=1, color='white')
         ))
-    fig.update_layout(barmode='stack', template='plotly_white',
-                      height=300, xaxis_title='Case', yaxis_title='Samples',
-                      legend=dict(orientation='h', y=1.1))
+    fig.update_layout(
+        barmode='stack', template='plotly_white',
+        height=320,
+        xaxis_title='Case', yaxis_title='Samples',
+        margin=dict(t=20, b=40, l=60, r=20),
+        legend=dict(orientation='h', y=1.1, font=dict(size=12))
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -500,12 +568,12 @@ elif page == "Class Distribution":
 
     st.markdown("---")
     st.subheader("Multi-Metric Radar View")
-    radar_case = st.selectbox("Select Case for Radar Chart", CASES)
+    radar_case = st.selectbox("Select Case for Radar Chart", CASES, key="radar_sel")
     st.plotly_chart(radar_chart(radar_case), use_container_width=True)
 
     st.markdown("---")
     st.subheader("Confusion Matrices by Case")
-    case_choice = st.selectbox("Select Case", CASES)
+    case_choice = st.selectbox("Select Case", CASES, key="cm_sel")
     st.plotly_chart(confusion_matrix_fig(case_choice), use_container_width=True)
 
     st.markdown("---")
@@ -529,7 +597,7 @@ elif page == "Class Distribution":
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 5 — REAL WORLD IMPACT  (original, new classifier colors apply)
+# PAGE 5 — REAL WORLD IMPACT
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "Real World Impact":
     st.title("Real World Impact")
@@ -548,15 +616,15 @@ elif page == "Real World Impact":
         us_missed     = int(drop * us_cases)
         global_missed = int(drop * global_cases)
 
-        st.metric("Baseline Sensitivity",       f"{baseline_sen:.1%}")
-        st.metric("Selected Case Sensitivity",  f"{case_sen:.1%}",
+        st.metric("Baseline Sensitivity",      f"{baseline_sen:.1%}")
+        st.metric("Selected Case Sensitivity", f"{case_sen:.1%}",
                   delta=f"{(case_sen - baseline_sen):+.1%}")
 
     st.markdown("---")
     col1, col2, col3 = st.columns(3)
-    col1.metric("Sensitivity Change",         f"{-drop:+.1%}")
-    col2.metric("Missed Diagnoses (US)",      f"{us_missed:,}")
-    col3.metric("Missed Diagnoses (Global)",  f"{global_missed:,}")
+    col1.metric("Sensitivity Change",        f"{-drop:+.1%}")
+    col2.metric("Missed Diagnoses (US)",     f"{us_missed:,}")
+    col3.metric("Missed Diagnoses (Global)", f"{global_missed:,}")
 
     st.markdown("---")
     st.subheader("Sensitivity Across All Cases")
@@ -564,13 +632,19 @@ elif page == "Real World Impact":
     for clf in CLFS:
         fig.add_trace(go.Bar(
             x=CASES, y=[sensitivity[c][clf] for c in CASES],
-            name=clf, marker_color=CLF_COLORS[clf], opacity=0.85
+            name=clf, marker_color=CLF_COLORS[clf],
+            marker_line=dict(width=1.5, color='white'),
+            opacity=0.9
         ))
-    fig.update_layout(barmode='group', template='plotly_white',
-                      height=380, yaxis=dict(range=[0.8, 1.01]),
-                      xaxis_title='Class Distribution',
-                      yaxis_title='Sensitivity',
-                      legend=dict(orientation='h', y=1.1))
+    fig.update_layout(
+        barmode='group', template='plotly_white',
+        height=400,
+        yaxis=dict(range=[0.8, 1.01], tickformat='.0%'),
+        xaxis_title='Class Distribution',
+        yaxis_title='Sensitivity',
+        margin=dict(t=20, b=40, l=60, r=20),
+        legend=dict(orientation='h', y=1.1, font=dict(size=12))
+    )
     st.plotly_chart(fig, use_container_width=True)
 
     st.markdown("---")
@@ -578,7 +652,7 @@ elif page == "Real World Impact":
     st.markdown("""
     - 2.3 million women were diagnosed with breast cancer globally in 2022
     - In 2026, an estimated 382,640 women in the US will be diagnosed with breast cancer
-    - By 2040, global incidence projected to exceed 3 million per year
+    - By 2040, global incidence is projected to exceed 3 million new cases per year *(Arnold et al., 2022, IARC/The Breast)*
     - A 1% sensitivity drop equals approximately 23,000 missed diagnoses globally per year
     """)
 
