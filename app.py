@@ -279,10 +279,10 @@ def radar_chart(case):
             theta=cats_closed,
             fill='none',
             name=clf,
-            line=dict(color=CLF_COLORS[clf], width=3),
+            line=dict(color=CLF_COLORS[clf], width=4),
             fillcolor=CLF_COLORS[clf],
             opacity=0.25,
-            marker=dict(size=8, color=CLF_COLORS[clf])
+            marker=dict(size=10, color=CLF_COLORS[clf])
         ))
     fig.update_layout(
         polar=dict(
@@ -529,9 +529,7 @@ elif page == "Baseline Classification":
     st.info("Logistic Regression outperforms the more complex models, SVM and Random Forest, on this dataset. This indicates that the decision boundary between the classes is largely linear, as observed in Phase 1.")
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# PAGE 4 — CLASS DISTRIBUTION  (title fixed, radar fixed)
-# ════════════════════════════════════════════════════════════════════════════
+# PAGE 4 — CLASS DISTRIBUTION  
 elif page == "Class Distribution":
     st.title("Class Distribution")
     st.markdown("Three fixed training sets (455 samples each) at different malignant-to-benign ratios, evaluated on the same fixed test set.")
