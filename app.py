@@ -258,6 +258,13 @@ def kde_trace(data, color, name, show_legend=True):
                       fill='tozeroy', opacity=0.5,
                       line=dict(color=color, width=2.5), showlegend=show_legend)
 
+
+FILL_COLORS = {
+    'Logistic Regression': 'rgba(0, 207, 255, 0.08)',
+    'SVM':                 'rgba(255, 34, 0, 0.08)',
+    'Random Forest':       'rgba(170, 0, 255, 0.08)',
+}
+
 def radar_chart(case):
     # Use separate axes per metric so scale differences don't distort shape
     categories = ['Accuracy', 'Sensitivity', 'Specificity', 'AUC-ROC']
@@ -277,10 +284,10 @@ def radar_chart(case):
         fig.add_trace(go.Scatterpolar(
             r=pct,
             theta=cats_closed,
-            fill='none',
+            fill='toself',
             name=clf,
             line=dict(color=CLF_COLORS[clf], width=4),
-            fillcolor=CLF_COLORS[clf],
+            fillcolor=FILL_COLORS[clf],
             opacity=1,
             marker=dict(size=10, color=CLF_COLORS[clf])
         ))
