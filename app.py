@@ -201,7 +201,7 @@ global_cases = 2300000
 C_BENIGN    = '#2ecc71'
 C_MALIGNANT = '#e74c3c'
 # Vibrant classifier palette
-C_LR  = '#00d4ff'   # cyan
+C_LR  = '#00cfff'   # cyan
 C_SVM = '#ff6b35'   # vivid orange
 C_RF  = '#c44dff'   # vivid purple
 CLF_COLORS = {'Logistic Regression': C_LR, 'SVM': C_SVM, 'Random Forest': C_RF}
@@ -281,7 +281,7 @@ def radar_chart(case):
             name=clf,
             line=dict(color=CLF_COLORS[clf], width=4),
             fillcolor=CLF_COLORS[clf],
-            opacity=0.25,
+            opacity=1,
             marker=dict(size=10, color=CLF_COLORS[clf])
         ))
     fig.update_layout(
