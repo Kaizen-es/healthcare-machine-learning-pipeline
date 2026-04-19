@@ -305,7 +305,7 @@ def radar_chart(case):
         legend=dict(orientation='h', y=-0.12, font=dict(size=13)),
         height=500,
         margin=dict(t=60, b=80, l=80, r=80),
-        title=dict(text=f'All Metrics Radar — {case}', font=dict(size=14))
+        title=dict(text=f'All Metrics Radar Chart— {case}', font=dict(size=14))
     )
     return fig
 
