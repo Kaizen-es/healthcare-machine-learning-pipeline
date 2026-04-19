@@ -277,7 +277,7 @@ def radar_chart(case):
         fig.add_trace(go.Scatterpolar(
             r=pct,
             theta=cats_closed,
-            fill='toself',
+            fill='none',
             name=clf,
             line=dict(color=CLF_COLORS[clf], width=3),
             fillcolor=CLF_COLORS[clf],
