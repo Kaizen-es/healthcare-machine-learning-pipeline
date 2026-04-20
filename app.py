@@ -618,7 +618,7 @@ elif page == "Real World Impact":
     with col2:
         baseline_sen  = sensitivity['Baseline (37/63)'][selected_clf]
         case_sen      = sensitivity[selected_case][selected_clf]
-        drop          = baseline_sen - case_sen
+        drop = round(baseline_sen - case_sen, 3)
         us_missed     = int(drop * us_cases)
         global_missed = int(drop * global_cases)
 
