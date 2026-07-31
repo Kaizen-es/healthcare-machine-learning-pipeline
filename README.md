@@ -36,13 +36,13 @@ This project addresses that question directly through a controlled distribution 
 ## Project Structure
 
 ## Methodology
-### Stage 1 — Feature Exploration
+### Stage 1: Feature Exploration
 - Feature distribution histograms (malignant vs benign)
 - Box plots highlighting median values and outliers
 - Correlation heatmap across all features
 - Scatter plots of key feature pairs colored by diagnosis
 
-### Stage 2 — Classification
+### Stage 2: Classification
 - **Support Vector Machine (SVM)**
 - **Logistic Regression**
 
@@ -54,7 +54,7 @@ Metrics:
 - Specificity
 - Confusion Matrix
 
-### Stage 3 — Distribution Experiment
+### Stage 3: Distribution Experiment
 
 | Case | Malignant | Benign | Description |
 |------|-----------|--------|-------------|
@@ -65,7 +65,7 @@ Metrics:
 
 ## Results
 
-*To be updated upon project completion.*
+Streamlit dash board
 
 ## Limitations
 
